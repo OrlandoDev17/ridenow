@@ -11,6 +11,7 @@ import { APIError, LoginProps, User, Driver } from "@/lib/types";
 export function useLogin() {
   const [loading, setLoading] = useState(false); // Estado de carga
   const [error, setError] = useState<string | null>(null); // Estado de error
+  const [success, setSuccess] = useState<boolean>(false); // Estado de exito
   const [token, setToken] = useState<string | null>(null); // Token JWT recibido
   const [profile, setProfile] = useState<User | Driver | null>(null); // Datos del usuario
 
@@ -36,6 +37,7 @@ export function useLogin() {
 
       setToken(receivedToken);
       setProfile(userData);
+      setSuccess(true);
 
       // ✅ Mostrar todos los datos en consola
       console.log("✅ Inicio de sesión exitoso:");
@@ -48,10 +50,11 @@ export function useLogin() {
           axiosError.response?.data?.error ||
           "Error al iniciar sesión"
       );
+      setSuccess(false);
     } finally {
       setLoading(false);
     }
   };
 
-  return { login, loading, error, token, profile };
+  return { login, loading, error, success, token, profile };
 }
