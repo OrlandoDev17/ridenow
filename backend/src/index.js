@@ -16,6 +16,9 @@ const authRoutes = require("./routes/auth.routes");
 // Usamos las rutas bajo el prefijo /api/auth
 app.use("/api/auth", authRoutes);
 
+// Usamos la carpeta uploads para servir archivos estáticos
+app.use("/uploads", express.static("uploads"));
+
 // Puerto de escucha (por defecto 3000 si no está definido en .env)
 const PORT = process.env.PORT || 3000;
 
