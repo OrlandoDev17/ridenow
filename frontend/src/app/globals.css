@@ -15,5 +15,5 @@ body {
   padding: 0;
   box-sizing: border-box;
   font-family: var(--font-poppins);
-  background-color: var(--color-secondary);
+  background-color: var(--color-primary);
 }
