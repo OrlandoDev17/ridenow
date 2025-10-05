@@ -1,0 +1,140 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  cedula       String   @id
+  name         String
+  email        String   @unique
+  phone        String
+  address      String
+  photoUrl     String?
+  cedulaUrl    String?
+  password     String
+  role         Role
+  createdAt    DateTime @default(now())
+  rides        Ride[]   @relation("ClientRides")
+  credit       Credit?
+  payments     Payment[]
+  reports      Report[]
+  ratings      Rating[]
+}
+
+model Driver {
+  cedula           String   @id
+  name             String
+  phone            String   @unique
+  password         String
+  licenseUrl       String
+  cedulaUrl        String
+  vehiclePhotoUrl  String
+  vehicleBrand     String
+  vehicleModel     String
+  createdAt        DateTime @default(now())
+  rides            Ride[]   @relation("DriverRides")
+  ratings          Rating[]
+}
+
+model Ride {
+  id             Int      @id @default(autoincrement())
+  origin         String
+  destination    String
+  type           RideType
+  scheduled      Boolean
+  scheduledAt    DateTime?
+  requestedAt    DateTime @default(now())
+  assignedAt     DateTime?
+  completedAt    DateTime?
+  status         RideStatus @default(PENDING)
+  client         User    @relation("ClientRides", fields: [clientCedula], references: [cedula])
+  clientCedula   String
+  driver         Driver? @relation("DriverRides", fields: [driverCedula], references: [cedula])
+  driverCedula   String?
+  feedback       String?
+  paymentMethod  PaymentMethod
+  fare           Float?
+  confirmationSent Boolean @default(false)
+}
+
+model Credit {
+  id           Int      @id @default(autoincrement())
+  user         User     @relation(fields: [userCedula], references: [cedula])
+  userCedula   String   @unique
+  limit        Float    @default(10.0)
+  available    Float
+  createdAt    DateTime @default(now())
+  payments     Payment[]
+}
+
+model Payment {
+  id           Int      @id @default(autoincrement())
+  credit       Credit?  @relation(fields: [creditId], references: [id])
+  creditId     Int?
+  user         User     @relation(fields: [userCedula], references: [cedula])
+  userCedula   String
+  amount       Float
+  paidAt       DateTime @default(now())
+}
+
+model AdminLog {
+  id           Int      @id @default(autoincrement())
+  action       String
+  target       String
+  timestamp    DateTime @default(now())
+}
+
+model Report {
+  id           Int      @id @default(autoincrement())
+  user         User     @relation(fields: [userCedula], references: [cedula])
+  userCedula   String
+  description  String
+  status       ReportStatus @default(PENDING)
+  createdAt    DateTime @default(now())
+}
+
+model Rating {
+  id           Int      @id @default(autoincrement())
+  user         User     @relation(fields: [userCedula], references: [cedula])
+  userCedula   String
+  driver       Driver   @relation(fields: [driverCedula], references: [cedula])
+  driverCedula String
+  score        Int      // 1–5
+  comment      String?
+  createdAt    DateTime @default(now())
+}
+
+enum Role {
+  CLIENT
+  DRIVER
+  ADMIN
+}
+
+enum RideStatus {
+  PENDING
+  ASSIGNED
+  COMPLETED
+  CANCELLED
+}
+
+enum RideType {
+  LOCAL
+  INTERCITY
+}
+
+enum PaymentMethod {
+  CASH
+  MOBILE
+  ZELLE
+  CREDIT
+}
+
+enum ReportStatus {
+  PENDING
+  RESOLVED
+  CLOSED
+}
