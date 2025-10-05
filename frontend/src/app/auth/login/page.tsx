@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLogin } from "@/hooks/useLogin";
 import { motion, AnimatePresence } from "motion/react";
+import { useRouter } from "next/navigation";
 
 import { LOGIN_FORM } from "@/lib/constants";
 import { EyeIcon, EyeOffIcon } from "@/ui/Icons";
@@ -11,7 +12,9 @@ import { LoginProps } from "@/lib/types";
 export default function LoginPage() {
   const [isVisible, setIsVisible] = useState(false);
 
-  const { login, loading, error } = useLogin();
+  const { login, loading, error, success } = useLogin();
+
+  const router = useRouter();
 
   const handleTogglePassword = () => {
     setIsVisible(!isVisible);
@@ -29,6 +32,12 @@ export default function LoginPage() {
 
     login(credentials);
   };
+
+  useEffect(() => {
+    if (success) {
+      router.push("/");
+    }
+  }, [success]);
 
   const variants = {
     initial: { opacity: 0, y: 40 },
@@ -82,8 +91,25 @@ export default function LoginPage() {
                 </label>
               )
             )}
-            <button className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg mt-2 hover:bg-blue-600 transition cursor-pointer">
-              Iniciar Sesión
+
+            {error && (
+              <p className="text-red-500 text-sm text-center">{error}</p>
+            )}
+            {success && (
+              <p className="text-green-500 text-sm text-center">
+                Registro exitoso
+              </p>
+            )}
+            <button
+              className={`cursor-pointer px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition disabled:opacity-50 flex items-center justify-center gap-2 ${
+                loading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              disabled={loading}
+            >
+              {loading && (
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              )}
+              {loading ? "Iniciando Sesión..." : "Iniciar Sesión"}
             </button>
           </form>
           <span className="flex items-center justify-center gap-2 text-gray-400 text-sm">

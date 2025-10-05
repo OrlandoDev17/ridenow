@@ -1,17 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { RegisterForm } from "@/ui/auth/RegisterForm";
 import { AnimatePresence, motion } from "motion/react";
-import {
-  useRegisterContext,
-  RegisterProvider,
-} from "@/context/RegisterContext";
+import { RegisterProvider } from "@/context/RegisterContext";
 
 function RegisterPageContent() {
-  const [step, setStep] = useState(1);
-  const { role, setRole } = useRegisterContext();
-
   const variants = {
     initial: { opacity: 0, y: 40 },
     animate: { opacity: 1, y: 0 },
@@ -22,7 +15,7 @@ function RegisterPageContent() {
     <main className="flex items-center justify-center h-screen">
       <AnimatePresence>
         <motion.article
-          className="flex flex-col gap-4 py-6 px-8 border border-gray-500 bg-secondary rounded-lg max-w-md w-full"
+          className="flex flex-col gap-4 py-10 px-8 border border-gray-500 bg-secondary rounded-lg max-w-md w-full"
           initial={variants.initial}
           animate={variants.animate}
           exit={variants.exit}
@@ -36,12 +29,21 @@ function RegisterPageContent() {
 
           <RegisterForm />
 
-          <button
-            className="text-gray-500 hover:text-white transition"
-            onClick={() => setStep(step - 1)}
+          <span className="flex items-center justify-center gap-2 text-sm text-gray-400">
+            ¿Ya tienes una cuenta?
+            <a
+              className="text-blue-500 hover:underline transition"
+              href="/auth/login"
+            >
+              inicia sesión aquí
+            </a>
+          </span>
+          <a
+            className="text-center text-sm text-gray-400 hover:text-white transition"
+            href="/"
           >
-            Volver
-          </button>
+            Volver al inicio
+          </a>
         </motion.article>
       </AnimatePresence>
     </main>
