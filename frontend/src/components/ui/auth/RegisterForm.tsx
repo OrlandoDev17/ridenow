@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EyeIcon, EyeOffIcon } from "@/components/ui/Icons";
 import { REGISTER_FORM } from "@/lib/constants";
 import { useRegisterContext } from "@/context/RegisterContext";
+import { useRouter } from "next/navigation";
 
 export function RegisterForm() {
   const [isVisible, setIsVisible] = useState(false);
@@ -18,6 +19,8 @@ export function RegisterForm() {
     success,
   } = useRegisterContext();
 
+  const router = useRouter();
+
   const handleTogglePassword = () => {
     setIsVisible(!isVisible);
   };
@@ -31,6 +34,12 @@ export function RegisterForm() {
     e.preventDefault();
     await submit();
   };
+
+  useEffect(() => {
+    if (success) {
+      router.push("/");
+    }
+  }, [success]);
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4">
@@ -89,10 +98,14 @@ export function RegisterForm() {
       )}
 
       <button
-        type="submit"
+        className={`cursor-pointer px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition disabled:opacity-50 flex items-center justify-center gap-2 ${
+          loading ? "opacity-50 cursor-not-allowed" : ""
+        }`}
         disabled={loading}
-        className="cursor-pointer px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition disabled:opacity-50"
       >
+        {loading && (
+          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+        )}
         {loading ? "Registrando..." : "Registrarse"}
       </button>
     </form>
