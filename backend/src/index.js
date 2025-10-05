@@ -1,16 +1,25 @@
+// Importamos las librerías necesarias
 const express = require("express");
 const cors = require("cors");
-require("dotenv").config();
+require("dotenv").config(); // Carga las variables de entorno desde .env
 
+// Inicializamos la app de Express
 const app = express();
-app.use(cors());
-app.use(express.json());
 
-// Rutas
-app.use("/api/auth", require("./routes/auth.routes"));
+// Middlewares globales
+app.use(cors()); // Permite peticiones desde otros dominios (útil para frontend)
+app.use(express.json()); // Permite recibir datos en formato JSON
 
+// Importamos las rutas de autenticación
+const authRoutes = require("./routes/auth.routes");
+
+// Usamos las rutas bajo el prefijo /api/auth
+app.use("/api/auth", authRoutes);
+
+// Puerto de escucha (por defecto 3000 si no está definido en .env)
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+// Iniciamos el servidor
+app.listen(PORT || 3001, () => {
+  console.log(`✅ RideNow backend corriendo en puerto ${PORT}`);
 });
