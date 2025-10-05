@@ -10,54 +10,52 @@ datasource db {
 model User {
   cedula       String   @id
   name         String
-  email        String   @unique
   phone        String
-  address      String
-  photoUrl     String?
-  cedulaUrl    String?
   password     String
   role         Role
   createdAt    DateTime @default(now())
+
+  // Campos opcionales para completar el perfil
+  email        String?  @unique
+  address      String?
+  photoUrl     String?
+  cedulaUrl    String?
+  licenseUrl   String?
+  vehiclePhotoUrl String?
+  vehicleBrand String?
+  vehicleModel String?
+
+  // Relaciones
   rides        Ride[]   @relation("ClientRides")
+  ridesDriven  Ride[]   @relation("DriverRides")
   credit       Credit?
   payments     Payment[]
   reports      Report[]
-  ratings      Rating[]
-}
-
-model Driver {
-  cedula           String   @id
-  name             String
-  phone            String   @unique
-  password         String
-  licenseUrl       String
-  cedulaUrl        String
-  vehiclePhotoUrl  String
-  vehicleBrand     String
-  vehicleModel     String
-  createdAt        DateTime @default(now())
-  rides            Ride[]   @relation("DriverRides")
-  ratings          Rating[]
+  ratingsGiven Rating[] @relation("UserRatings")
+  ratingsReceived Rating[] @relation("DriverRatings")
 }
 
 model Ride {
-  id             Int      @id @default(autoincrement())
-  origin         String
-  destination    String
-  type           RideType
-  scheduled      Boolean
-  scheduledAt    DateTime?
-  requestedAt    DateTime @default(now())
-  assignedAt     DateTime?
-  completedAt    DateTime?
-  status         RideStatus @default(PENDING)
-  client         User    @relation("ClientRides", fields: [clientCedula], references: [cedula])
-  clientCedula   String
-  driver         Driver? @relation("DriverRides", fields: [driverCedula], references: [cedula])
-  driverCedula   String?
-  feedback       String?
-  paymentMethod  PaymentMethod
-  fare           Float?
+  id               Int      @id @default(autoincrement())
+  origin           String
+  destination      String
+  type             RideType
+  scheduled        Boolean
+  scheduledAt      DateTime?
+  requestedAt      DateTime @default(now())
+  assignedAt       DateTime?
+  completedAt      DateTime?
+  status           RideStatus @default(PENDING)
+
+  client           User    @relation("ClientRides", fields: [clientCedula], references: [cedula])
+  clientCedula     String
+
+  driver           User?   @relation("DriverRides", fields: [driverCedula], references: [cedula])
+  driverCedula     String?
+
+  feedback         String?
+  paymentMethod    PaymentMethod
+  fare             Float?
   confirmationSent Boolean @default(false)
 }
 
@@ -99,9 +97,9 @@ model Report {
 
 model Rating {
   id           Int      @id @default(autoincrement())
-  user         User     @relation(fields: [userCedula], references: [cedula])
+  user         User     @relation("UserRatings", fields: [userCedula], references: [cedula])
   userCedula   String
-  driver       Driver   @relation(fields: [driverCedula], references: [cedula])
+  driver       User     @relation("DriverRatings", fields: [driverCedula], references: [cedula])
   driverCedula String
   score        Int      // 1–5
   comment      String?
