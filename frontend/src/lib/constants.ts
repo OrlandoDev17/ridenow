@@ -36,3 +36,39 @@ export const LOGIN_FORM: AuthFormProps[] = [
     name: "password",
   },
 ];
+
+export const REGISTER_FORM: AuthFormProps[] = [
+  {
+    id: "name",
+    label: "Nombre completo",
+    type: "text",
+    placeholder: "Orlando López",
+    required: true,
+    name: "name",
+  },
+  {
+    id: "cedula",
+    label: "Cedula de Identidad",
+    type: "text",
+    placeholder: "12345678",
+    required: true,
+    name: "cedula",
+  },
+  {
+    id: "phone",
+    label: "Telefono",
+    type: "number",
+    placeholder: "0412345678",
+    required: true,
+    name: "phone",
+  },
+
+  {
+    id: "password",
+    label: "Contraseña",
+    type: "password",
+    placeholder: "********",
+    required: true,
+    name: "password",
+  },
+];
