@@ -8,6 +8,7 @@ interface AuthContextType {
   token: string | null;
   user: any;
   isAuthenticated: boolean;
+  isHydrated: boolean;
   loading: boolean;
   error: string | null;
   success: boolean;
@@ -27,11 +28,20 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [token, setToken] = useState<string | null>(null);
-  const [user, setUser] = useState<any>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<boolean>(false);
+  const [auth, setAuth] = useState({
+    token: null as string | null,
+    user: null as any,
+    isAuthenticated: false,
+  });
+
+  const [status, setStatus] = useState({
+    loading: false,
+    error: null as string | null,
+    success: false,
+    logoutSuccess: false,
+    isHydrated: false,
+  });
+
   const [formValues, setFormValues] = useState<FormValues>({
     cedula: "",
     name: "",
@@ -40,27 +50,41 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     address: "",
     password: "",
   });
-  const [role, setRole] = useState<string>("CLIENT");
-  const [logoutSuccess, setLogoutSuccess] = useState<boolean>(false);
 
-  const isAuthenticated = !!token;
+  const [role, setRole] = useState<string>("CLIENT");
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
-    const storedToken =
-      typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    const storedToken = localStorage.getItem("token");
+    const storedUser = localStorage.getItem("user");
 
     if (storedToken && storedToken !== "undefined") {
-      setToken(storedToken);
+      setAuth((prev) => ({
+        ...prev,
+        token: storedToken,
+        isAuthenticated: true,
+      }));
     }
+
+    if (storedUser && storedUser !== "undefined") {
+      setAuth((prev) => ({
+        ...prev,
+        user: JSON.parse(storedUser),
+      }));
+    }
+
+    setStatus((prev) => ({ ...prev, isHydrated: true }));
   }, []);
 
   const login = async (cedula: string, password: string) => {
-    setLoading(true);
-    setError(null);
-    setSuccess(false);
-    setLogoutSuccess(false);
+    setStatus((prev) => ({
+      ...prev,
+      loading: true,
+      error: null,
+      success: false,
+      logoutSuccess: false,
+    }));
 
     try {
       const res = await axios.post(`${API_URL}/api/auth/login`, {
@@ -69,21 +93,33 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       });
 
       localStorage.setItem("token", res.data.token);
-      setToken(res.data.token);
-      setUser(res.data.user); // ✅ ya tienes el usuario
-      setSuccess(true);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+
+      setAuth({
+        token: res.data.token,
+        user: res.data.user,
+        isAuthenticated: true,
+      });
+
+      setStatus((prev) => ({ ...prev, success: true }));
     } catch (err: any) {
-      setError(err.response?.data?.message || "Error al iniciar sesión");
+      setStatus((prev) => ({
+        ...prev,
+        error: err.response?.data?.message || "Error al iniciar sesión",
+      }));
     } finally {
-      setLoading(false);
+      setStatus((prev) => ({ ...prev, loading: false }));
     }
   };
 
   const register = async () => {
-    setLoading(true);
-    setError(null);
-    setSuccess(false);
-    setLogoutSuccess(false);
+    setStatus((prev) => ({
+      ...prev,
+      loading: true,
+      error: null,
+      success: false,
+      logoutSuccess: false,
+    }));
 
     try {
       const payload = {
@@ -95,48 +131,66 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       };
 
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`,
+        `${API_URL}/api/auth/register`,
         payload
       );
 
       const token = response.data.token;
       if (token) {
         localStorage.setItem("token", token);
-        setToken(token);
-        setUser(response.data.user);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+
+        setAuth({
+          token,
+          user: response.data.user,
+          isAuthenticated: true,
+        });
       }
 
       console.log("✅ Registro exitoso:", response.data.user);
-      setSuccess(true);
+      setStatus((prev) => ({ ...prev, success: true }));
     } catch (err: any) {
       console.error("❌ Error:", err);
-      setError(
-        err.response?.data?.message ||
+      setStatus((prev) => ({
+        ...prev,
+        error:
+          err.response?.data?.message ||
           err.response?.data?.error ||
-          "Error al registrar"
-      );
+          "Error al registrar",
+      }));
     } finally {
-      setLoading(false);
+      setStatus((prev) => ({ ...prev, loading: false }));
     }
   };
 
   const logout = () => {
     localStorage.removeItem("token");
-    setToken(null);
-    setUser(null);
-    setSuccess(false);
-    setLogoutSuccess(true);
+    localStorage.removeItem("user");
+
+    setAuth({
+      token: null,
+      user: null,
+      isAuthenticated: false,
+    });
+
+    setStatus((prev) => ({
+      ...prev,
+      success: false,
+      logoutSuccess: true,
+    }));
   };
 
   return (
     <AuthContext.Provider
       value={{
-        token,
-        user,
-        isAuthenticated,
-        loading,
-        error,
-        success,
+        token: auth.token,
+        user: auth.user,
+        isAuthenticated: auth.isAuthenticated,
+        isHydrated: status.isHydrated,
+        loading: status.loading,
+        error: status.error,
+        success: status.success,
+        logoutSuccess: status.logoutSuccess,
         login,
         register,
         logout,
@@ -144,8 +198,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setFormValues,
         setRole,
         role,
-        logoutSuccess,
-        setLogoutSuccess,
+        setLogoutSuccess: (success: boolean) =>
+          setStatus((prev) => ({ ...prev, logoutSuccess: success })),
       }}
     >
       {children}
