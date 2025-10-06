@@ -17,7 +17,7 @@ export interface AuthFormProps {
   type: string;
   placeholder: string;
   required: boolean;
-  name: string;
+  name: keyof FormValues;
 }
 
 export interface LoginProps {
@@ -86,7 +86,9 @@ export interface ClientStepProps {
     photo?: string;
     idDocument?: string;
   };
-  onFileChange: (type: "photo" | "idDocument") => (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onFileChange: (
+    type: "photo" | "idDocument"
+  ) => (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (e: React.FormEvent) => void;
 }
 
@@ -104,6 +106,17 @@ export interface DriverStepProps {
     vehiclePhoto?: string;
   };
   onTextChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onFileChange: (type: "licensePhoto" | "vehiclePhoto") => (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onFileChange: (
+    type: "licensePhoto" | "vehiclePhoto"
+  ) => (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (e: React.FormEvent) => void;
+}
+
+export interface FormValues {
+  cedula: string;
+  name: string;
+  phone: string;
+  email: string;
+  address: string;
+  password: string;
 }
