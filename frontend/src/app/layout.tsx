@@ -3,6 +3,7 @@
 import { AuthProvider } from "@/context/AuthContext";
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import "leaflet/dist/leaflet.css";
 import { Header } from "@/components/layout/Header";
 import { usePathname } from "next/navigation";
 
@@ -35,7 +36,7 @@ export default function RootLayout({
       <body className={`${poppinsFont.variable} antialiased`}>
         <AuthProvider>
           {showHeader && <Header />}
-          <div className="min-h-screen flex flex-col">{children}</div>
+          <div className="mt-20">{children}</div>
         </AuthProvider>
       </body>
     </html>
