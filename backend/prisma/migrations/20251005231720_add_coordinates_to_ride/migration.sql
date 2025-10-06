@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Ride" ADD COLUMN     "destinationLat" DOUBLE PRECISION,
+ADD COLUMN     "destinationLng" DOUBLE PRECISION,
+ADD COLUMN     "originLat" DOUBLE PRECISION,
+ADD COLUMN     "originLng" DOUBLE PRECISION;
