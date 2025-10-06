@@ -11,40 +11,42 @@ const JWT_SECRET = process.env.JWT_SECRET;
  * Registro de usuario (cliente o conductor)
  * Guarda solo los campos básicos
  */
+
 exports.registerUser = async (req, res) => {
   const { cedula, name, phone, password, role } = req.body;
 
-  try {
-    // Validación básica
-    if (!cedula || !name || !phone || !password || !role) {
-      return res.status(400).json({ message: "Faltan campos obligatorios" });
-    }
-
-    // Verificar si ya existe
-    const existingUser = await prisma.user.findUnique({ where: { cedula } });
-    if (existingUser) {
-      return res.status(409).json({ message: "La cédula ya está registrada" });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const user = await prisma.user.create({
-      data: {
-        cedula,
-        name,
-        phone,
-        password: hashedPassword,
-        role,
-      },
-    });
-
-    return res.status(201).json({ message: "Usuario registrado", user });
-  } catch (error) {
-    console.error("❌ Error al registrar usuario:", error);
+  const existing = await prisma.user.findUnique({ where: { cedula } });
+  if (existing) {
     return res
-      .status(500)
-      .json({ message: "Error interno al registrar usuario" });
+      .status(400)
+      .json({ error: "Ya existe un usuario con esa cédula" });
   }
+
+  const newUser = await prisma.user.create({
+    data: { cedula, name, phone, password, role },
+  });
+
+  const token = jwt.sign(
+    { cedula: newUser.cedula, role: newUser.role },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "1d",
+    }
+  );
+
+  return res.status(201).json({
+    token,
+    user: {
+      cedula: newUser.cedula,
+      name: newUser.name,
+      phone: newUser.phone,
+      email: newUser.email,
+      address: newUser.address,
+      role: newUser.role,
+      createdAt: newUser.createdAt,
+      updatedAt: newUser.updatedAt,
+    },
+  });
 };
 
 /*
@@ -70,7 +72,7 @@ exports.login = async (req, res) => {
     const token = jwt.sign(
       { cedula: user.cedula, role: user.role },
       JWT_SECRET,
-      { expiresIn: "7d" }
+      { expiresIn: "1d" }
     );
 
     return res.json({

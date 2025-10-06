@@ -37,28 +37,50 @@ model User {
 
 model Ride {
   id               Int      @id @default(autoincrement())
+
+  // 📍 Origen: dirección + coordenadas opcionales
   origin           String
+  originLat        Float?
+  originLng        Float?
+
+  // 🎯 Destino: dirección + coordenadas opcionales
   destination      String
+  destinationLat   Float?
+  destinationLng   Float?
+
+  // 🚗 Tipo de viaje: LOCAL o INTERCITY
   type             RideType
+
+  // 📅 Agendamiento opcional
   scheduled        Boolean
   scheduledAt      DateTime?
+
+  // 🕒 Tiempos del viaje
   requestedAt      DateTime @default(now())
   assignedAt       DateTime?
   completedAt      DateTime?
+
+  // 📌 Estado del viaje
   status           RideStatus @default(PENDING)
 
+  // 👤 Cliente que solicita el viaje
   client           User    @relation("ClientRides", fields: [clientCedula], references: [cedula])
   clientCedula     String
 
+  // 🚙 Conductor asignado (opcional al inicio)
   driver           User?   @relation("DriverRides", fields: [driverCedula], references: [cedula])
   driverCedula     String?
 
+  // 🗣️ Feedback del cliente
   feedback         String?
+
+  // 💰 Método de pago y tarifa
   paymentMethod    PaymentMethod
   fare             Float?
+
+  // ✅ Confirmación de asignación
   confirmationSent Boolean @default(false)
 }
-
 model Credit {
   id           Int      @id @default(autoincrement())
   user         User     @relation(fields: [userCedula], references: [cedula])
