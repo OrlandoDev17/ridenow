@@ -1,5 +1,5 @@
 // Tipos
-import { AuthFormProps, ElectionCardProps } from "./types";
+import { AuthFormProps, ButtonGroupProps, ElectionCardProps } from "./types";
 // Iconos
 import { LocationIcon, CarIcon } from "@/components/ui/Icons";
 
@@ -70,5 +70,35 @@ export const REGISTER_FORM: AuthFormProps[] = [
     placeholder: "********",
     required: true,
     name: "password",
+  },
+];
+
+export const BUTTON_GROUP: ButtonGroupProps[] = [
+  {
+    id: "request",
+    label: "Solicitar",
+  },
+  {
+    id: "history",
+    label: "Historial",
+  },
+  {
+    id: "account",
+    label: "Cuenta",
+  },
+];
+
+export const ORIGIN_DESTINY: ButtonGroupProps[] = [
+  {
+    id: "manual-location",
+    label: "Escribir Ubicación",
+  },
+  {
+    id: "share-location",
+    label: "Compartir Ubicación",
+  },
+  {
+    id: "select-location",
+    label: "Seleccionar Ubicación",
   },
 ];

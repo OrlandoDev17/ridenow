@@ -120,3 +120,11 @@ export interface FormValues {
   address: string;
   password: string;
 }
+
+export interface ButtonGroupProps {
+  id: string;
+  label: string;
+  onClick?: () => void;
+  selected?: string;
+  className?: string;
+}
