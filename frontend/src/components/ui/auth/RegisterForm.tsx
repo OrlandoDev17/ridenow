@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { EyeIcon, EyeOffIcon } from "@/components/ui/Icons";
 import { REGISTER_FORM } from "@/lib/constants";
-import { useRegisterContext } from "@/context/RegisterContext";
+import { useAuth } from "@/context/AuthContext";
+import { FormValues } from "@/lib/types";
 import { useRouter } from "next/navigation";
 
 export function RegisterForm() {
@@ -13,11 +14,12 @@ export function RegisterForm() {
     setFormValues,
     role,
     setRole,
-    submit,
+    register,
     loading,
     error,
     success,
-  } = useRegisterContext();
+    isAuthenticated,
+  } = useAuth();
 
   const router = useRouter();
 
@@ -27,19 +29,26 @@ export function RegisterForm() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormValues((prev) => ({ ...prev, [name]: value }));
+    setFormValues((prevValues: FormValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await submit();
+  const handleRoleChange = (role: string) => {
+    setRole(role);
   };
 
   useEffect(() => {
-    if (success) {
-      router.push("/");
+    if (success && isAuthenticated) {
+      router.push("/rides");
     }
-  }, [success]);
+  }, [success, isAuthenticated]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await register();
+  };
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4">
@@ -70,7 +79,7 @@ export function RegisterForm() {
       <div className="grid grid-cols-2 gap-4">
         <button
           type="button"
-          onClick={() => setRole("CLIENT")}
+          onClick={() => handleRoleChange("CLIENT")}
           className={`cursor-pointer px-4 py-2 rounded-lg transition ${
             role === "CLIENT"
               ? "bg-blue-500 text-white hover:bg-blue-600"
@@ -81,7 +90,7 @@ export function RegisterForm() {
         </button>
         <button
           type="button"
-          onClick={() => setRole("DRIVER")}
+          onClick={() => handleRoleChange("DRIVER")}
           className={`cursor-pointer px-4 py-2 rounded-lg transition ${
             role === "DRIVER"
               ? "bg-blue-500 text-white hover:bg-blue-600"

@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useLogin } from "@/hooks/useLogin";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-
 import { LOGIN_FORM } from "@/lib/constants";
 import { EyeIcon, EyeOffIcon } from "@/ui/Icons";
 import { LoginProps } from "@/lib/types";
@@ -12,13 +11,19 @@ import { LoginProps } from "@/lib/types";
 export default function LoginPage() {
   const [isVisible, setIsVisible] = useState(false);
 
-  const { login, loading, error, success } = useLogin();
+  const { login, loading, error, success, isAuthenticated } = useAuth();
 
   const router = useRouter();
 
   const handleTogglePassword = () => {
     setIsVisible(!isVisible);
   };
+
+  useEffect(() => {
+    if (success && isAuthenticated) {
+      router.push("/rides");
+    }
+  }, [success, isAuthenticated]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,15 +35,8 @@ export default function LoginPage() {
       password: formValues.password.toString(),
     };
 
-    login(credentials);
+    login(credentials.cedula, credentials.password);
   };
-
-  useEffect(() => {
-    if (success) {
-      router.push("/");
-    }
-  }, [success]);
-
   const variants = {
     initial: { opacity: 0, y: 40 },
     animate: { opacity: 1, y: 0 },
@@ -97,7 +95,7 @@ export default function LoginPage() {
             )}
             {success && (
               <p className="text-green-500 text-sm text-center">
-                Registro exitoso
+                Sesión iniciada exitosamente
               </p>
             )}
             <button

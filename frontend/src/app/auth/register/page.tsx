@@ -2,9 +2,8 @@
 
 import { RegisterForm } from "@/ui/auth/RegisterForm";
 import { AnimatePresence, motion } from "motion/react";
-import { RegisterProvider } from "@/context/RegisterContext";
 
-function RegisterPageContent() {
+export default function RegisterPage() {
   const variants = {
     initial: { opacity: 0, y: 40 },
     animate: { opacity: 1, y: 0 },
@@ -47,13 +46,5 @@ function RegisterPageContent() {
         </motion.article>
       </AnimatePresence>
     </main>
-  );
-}
-
-export default function RegisterPage() {
-  return (
-    <RegisterProvider>
-      <RegisterPageContent />
-    </RegisterProvider>
   );
 }
