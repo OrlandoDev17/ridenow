@@ -36,7 +36,7 @@ export default function RootLayout({
       <body className={`${poppinsFont.variable} antialiased`}>
         <AuthProvider>
           {showHeader && <Header />}
-          <div className="mt-20">{children}</div>
+          <div>{children}</div>
         </AuthProvider>
       </body>
     </html>
