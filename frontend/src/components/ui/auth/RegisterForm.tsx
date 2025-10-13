@@ -51,12 +51,11 @@ export function RegisterForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4">
-      {REGISTER_FORM.map(({ id, label, type, placeholder, required, name }) => (
+    <form onSubmit={handleSubmit} className="flex flex-col gap-6 mt-4">
+      {REGISTER_FORM.map(({ id, type, placeholder, required, name }) => (
         <label className="flex flex-col gap-2 relative" key={id}>
-          <span className="font-medium">{label}</span>
           <input
-            className="px-4 py-2 bg-neutral-800 border border-gray-500 rounded-lg focus:outline-none focus:border-blue-500 transition"
+            className="px-4 py-3 bg-primary rounded-lg focus:outline-none focus:border-blue-500 transition"
             type={isVisible && type === "password" ? "text" : type}
             placeholder={placeholder}
             required={required}
@@ -68,7 +67,7 @@ export function RegisterForm() {
             <button
               type="button"
               onClick={handleTogglePassword}
-              className="absolute right-2 bottom-2"
+              className="absolute right-2 bottom-3"
             >
               {isVisible ? <EyeIcon /> : <EyeOffIcon />}
             </button>

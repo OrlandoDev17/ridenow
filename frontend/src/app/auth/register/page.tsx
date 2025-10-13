@@ -14,15 +14,14 @@ export default function RegisterPage() {
     <main className="flex items-center justify-center h-screen">
       <AnimatePresence>
         <motion.article
-          className="flex flex-col gap-4 py-10 px-8 border border-gray-500 bg-secondary rounded-lg max-w-md w-full"
+          className="flex flex-col gap-4 py-10 px-8 bg-secondary rounded-2xl max-w-md w-full"
           initial={variants.initial}
           animate={variants.animate}
           exit={variants.exit}
           transition={{ duration: 0.5 }}
         >
           <div className="flex flex-col items-center gap-4">
-            <h2 className="text-3xl text-blue-500 font-bold">RideNow</h2>
-            <h3 className="text-2xl font-semibold">Registro</h3>
+            <h3 className="text-3xl font-semibold">Registro</h3>
             <h5 className="text-sm text-gray-500">Crea tu cuenta en RideNow</h5>
           </div>
 
@@ -37,12 +36,6 @@ export default function RegisterPage() {
               inicia sesión aquí
             </a>
           </span>
-          <a
-            className="text-center text-sm text-gray-400 hover:text-white transition"
-            href="/"
-          >
-            Volver al inicio
-          </a>
         </motion.article>
       </AnimatePresence>
     </main>

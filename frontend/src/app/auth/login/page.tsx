@@ -21,7 +21,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (success && isAuthenticated) {
-      router.push("/rides");
+      router.push("/");
     }
   }, [success, isAuthenticated]);
 
@@ -37,59 +37,50 @@ export default function LoginPage() {
 
     login(credentials.cedula, credentials.password);
   };
+
   const variants = {
-    initial: { opacity: 0, y: 40 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -40 },
+    initial: {
+      opacity: 0,
+      y: 40,
+    },
+    animate: {
+      opacity: 1,
+      y: 0,
+    },
+    exit: {
+      opacity: 0,
+      y: -40,
+    },
   };
 
   return (
     <main className="flex items-center justify-center h-screen">
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         <motion.article
-          initial={variants.initial}
-          animate={variants.animate}
-          exit={variants.exit}
+          variants={variants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
           transition={{ duration: 0.5 }}
-          className="flex flex-col gap-4 py-10 px-8 border border-gray-500 bg-secondary rounded-lg 
-      max-w-md w-full"
+          className="flex flex-col gap-4 py-8 px-8 max-w-md w-full bg-secondary rounded-2xl shadow-xl"
         >
           <div className="flex flex-col items-center gap-4">
-            <h2 className="text-3xl text-blue-500 font-bold">RideNow</h2>
-            <h3 className="text-2xl font-semibold">Iniciar Sesión</h3>
+            <h3 className="text-3xl font-semibold">Iniciar Sesión</h3>
             <h5 className="text-sm text-gray-500">
               Ingresa a tu cuenta de RideNow
             </h5>
           </div>
-          <form className="flex flex-col gap-4 mt-4" onSubmit={handleSubmit}>
-            {LOGIN_FORM.map(
-              ({ id, label, type, placeholder, required, name }) => (
-                <label className="flex flex-col gap-2 relative" key={id}>
-                  <span className="font-medium">{label}</span>
-                  <input
-                    className="px-4 py-2 bg-neutral-800 border border-gray-500 rounded-lg focus:outline-none focus:border-blue-500 transition"
-                    type={isVisible ? "text" : type}
-                    placeholder={
-                      isVisible && type === "password"
-                        ? "Contraseña"
-                        : placeholder
-                    }
-                    required={required}
-                    name={name}
-                  />
-                  {type === "password" && (
-                    <button
-                      type="button"
-                      onClick={handleTogglePassword}
-                      className="absolute right-2 bottom-2"
-                    >
-                      {isVisible ? <EyeIcon /> : <EyeOffIcon />}
-                    </button>
-                  )}
-                </label>
-              )
-            )}
-
+          <form className="flex flex-col gap-8 mt-4" onSubmit={handleSubmit}>
+            {LOGIN_FORM.map((form) => (
+              <input
+                key={form.id}
+                type={form.type}
+                placeholder={form.placeholder}
+                required={form.required}
+                name={form.name}
+                className="px-4 py-4 rounded-xl bg-primary focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              />
+            ))}
             {error && (
               <p className="text-red-500 text-sm text-center">{error}</p>
             )}
@@ -99,7 +90,7 @@ export default function LoginPage() {
               </p>
             )}
             <button
-              className={`cursor-pointer px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition disabled:opacity-50 flex items-center justify-center gap-2 ${
+              className={`cursor-pointer px-4 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition disabled:opacity-50 flex items-center justify-center gap-2 ${
                 loading ? "opacity-50 cursor-not-allowed" : ""
               }`}
               disabled={loading}
@@ -114,17 +105,11 @@ export default function LoginPage() {
             ¿No tienes cuenta?
             <a
               href="/auth/register"
-              className=" text-blue-400 font-semibold hover:underline transition"
+              className=" text-blue-400 hover:underline transition"
             >
               Regístrate Aquí
             </a>
           </span>
-          <a
-            className="text-center text-gray-400 text-sm hover:text-white transition"
-            href="/"
-          >
-            Volver al Inicio
-          </a>
         </motion.article>
       </AnimatePresence>
     </main>
