@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #181818;
-  --color-secondary: #1b1b1b;
   --font-poppins: var(--font-poppins);
+  --color-primary: #111827;
+  --color-secondary: #1f2937;
 }
 
 html {
-  color-scheme: dark;
+  color-scheme: dark light;
 }
 
 body {
