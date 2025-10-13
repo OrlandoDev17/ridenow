@@ -1,35 +1,27 @@
 // Tipos
-import { AuthFormProps, ButtonGroupProps, ElectionCardProps } from "./types";
-// Iconos
-import { LocationIcon, CarIcon } from "@/components/ui/Icons";
-
-export const ELECTION_CARDS: ElectionCardProps[] = [
-  {
-    id: "client",
-    title: "Cliente",
-    icon: LocationIcon,
-    text: "Solicita viajes seguros y confiables",
-  },
-  {
-    id: "driver",
-    title: "Conductor",
-    icon: CarIcon,
-    text: "Unete a nuestro equipo de conductores",
-  },
-];
+import {
+  ArrowRightIcon,
+  CircleIcon,
+  LeftRightIcon,
+  LocationIcon,
+} from "@/components/ui/Icons";
+import {
+  AuthFormProps,
+  NavbarItem,
+  TravelFormItem,
+  TravelOptions,
+} from "./types";
 
 export const LOGIN_FORM: AuthFormProps[] = [
   {
     id: "cedula",
-    label: "Cedula de Identidad",
     type: "text",
-    placeholder: "12345678",
+    placeholder: "Cedula de Identidad",
     required: true,
     name: "cedula",
   },
   {
     id: "password",
-    label: "Contraseña",
     type: "password",
     placeholder: "********",
     required: true,
@@ -40,32 +32,28 @@ export const LOGIN_FORM: AuthFormProps[] = [
 export const REGISTER_FORM: AuthFormProps[] = [
   {
     id: "name",
-    label: "Nombre completo",
     type: "text",
-    placeholder: "Orlando López",
+    placeholder: "Nombre Completo",
     required: true,
     name: "name",
   },
   {
     id: "cedula",
-    label: "Cedula de Identidad",
     type: "text",
-    placeholder: "12345678",
+    placeholder: "Cedula de Identidad",
     required: true,
     name: "cedula",
   },
   {
     id: "phone",
-    label: "Telefono",
     type: "number",
-    placeholder: "0412345678",
+    placeholder: "Numero de Telefono",
     required: true,
     name: "phone",
   },
 
   {
     id: "password",
-    label: "Contraseña",
     type: "password",
     placeholder: "********",
     required: true,
@@ -73,32 +61,50 @@ export const REGISTER_FORM: AuthFormProps[] = [
   },
 ];
 
-export const BUTTON_GROUP: ButtonGroupProps[] = [
+export const NAVBAR_LINKS: NavbarItem[] = [
   {
-    id: "request",
-    label: "Solicitar",
+    id: "viajes",
+    label: "Viajes",
+    href: "/",
   },
   {
-    id: "history",
+    id: "historial",
     label: "Historial",
+    href: "/history",
   },
   {
-    id: "account",
+    id: "cuenta",
     label: "Cuenta",
+    href: "/account",
   },
 ];
 
-export const ORIGIN_DESTINY: ButtonGroupProps[] = [
+export const TRAVEL_FORM: TravelFormItem[] = [
   {
-    id: "manual-location",
-    label: "Escribir Ubicación",
+    id: "origin",
+    label: "Origen",
+    name: "origin",
+    placeholder: "¿Donde estas?",
+    icon: CircleIcon,
   },
   {
-    id: "share-location",
-    label: "Compartir Ubicación",
+    id: "destination",
+    label: "Destino",
+    name: "destination",
+    placeholder: "¿A donde quieres ir?",
+    icon: LocationIcon,
+  },
+];
+
+export const TRAVEL_OPTIONS: TravelOptions[] = [
+  {
+    id: "one-way",
+    label: "Solo Ida",
+    icon: ArrowRightIcon,
   },
   {
-    id: "select-location",
-    label: "Seleccionar Ubicación",
+    id: "round-trip",
+    label: "Ida y Vuelta",
+    icon: LeftRightIcon,
   },
 ];

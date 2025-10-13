@@ -4,16 +4,14 @@ export interface IconProps {
   className?: string;
 }
 
-export interface ElectionCardProps {
-  id?: string;
-  title: string;
-  icon: ComponentType<IconProps>;
-  text: string;
+export interface NavbarItem {
+  id: string;
+  label: string;
+  href: string;
 }
 
 export interface AuthFormProps {
   id: string;
-  label: string;
   type: string;
   placeholder: string;
   required: boolean;
@@ -66,52 +64,6 @@ export interface RegisterFormProps {
   name: string;
 }
 
-// Nuevos tipos para componentes de registro
-export type FileState = File | null;
-
-export interface FileUploadConfig {
-  id: string;
-  label: string;
-  accept: string;
-  description: string;
-  icon: ComponentType<IconProps>;
-}
-
-export interface ClientStepProps {
-  files: {
-    photo: FileState;
-    idDocument: FileState;
-  };
-  errors: {
-    photo?: string;
-    idDocument?: string;
-  };
-  onFileChange: (
-    type: "photo" | "idDocument"
-  ) => (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onSubmit: (e: React.FormEvent) => void;
-}
-
-export interface DriverStepProps {
-  formData: {
-    brand: string;
-    model: string;
-    licensePhoto: FileState;
-    vehiclePhoto: FileState;
-  };
-  errors: {
-    brand?: string;
-    model?: string;
-    licensePhoto?: string;
-    vehiclePhoto?: string;
-  };
-  onTextChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onFileChange: (
-    type: "licensePhoto" | "vehiclePhoto"
-  ) => (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onSubmit: (e: React.FormEvent) => void;
-}
-
 export interface FormValues {
   cedula: string;
   name: string;
@@ -121,10 +73,16 @@ export interface FormValues {
   password: string;
 }
 
-export interface ButtonGroupProps {
+export interface TravelFormItem {
   id: string;
   label: string;
-  onClick?: () => void;
-  selected?: string;
-  className?: string;
+  name: string;
+  placeholder: string;
+  icon: ComponentType<IconProps>;
+}
+
+export interface TravelOptions {
+  id: string;
+  label: string;
+  icon: ComponentType<IconProps>;
 }
