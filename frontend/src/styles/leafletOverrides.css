@@ -1,0 +1,31 @@
+.leaflet-container {
+  font-size: 1rem !important;
+}
+
+.leaflet-control-zoom a {
+  font-size: 1.4rem !important;
+  width: 36px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+}
+
+.leaflet-control-attribution {
+  font-size: 0.9rem !important;
+}
+
+.leaflet-popup-content {
+  font-size: 1rem !important;
+}
+
+@media (max-width: 768px) {
+  .leaflet-container {
+    font-size: 0.9rem !important;
+  }
+
+  .leaflet-control-zoom a {
+    font-size: 1.2rem !important;
+    width: 32px !important;
+    height: 32px !important;
+    line-height: 32px !important;
+  }
+}
