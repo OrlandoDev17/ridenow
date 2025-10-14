@@ -3,7 +3,6 @@
 import { AuthProvider } from "@/context/AuthContext";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import "leaflet/dist/leaflet.css";
 import { Header } from "@/components/layout/Header";
 import { usePathname } from "next/navigation";
 
