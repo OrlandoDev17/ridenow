@@ -41,7 +41,7 @@ export function RegisterForm() {
 
   useEffect(() => {
     if (success && isAuthenticated) {
-      router.push("/rides");
+      router.push("/");
     }
   }, [success, isAuthenticated]);
 

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { motion, AnimatePresence } from "motion/react";
+import { XIcon } from "./Icons";
 
 export function WelcomeMessage() {
   const { user, isAuthenticated, loading, success } = useAuth();
@@ -67,7 +68,7 @@ export function WelcomeMessage() {
 
             {/* Welcome Message */}
             <div className="flex-1">
-              <h3 className="font-semibold text-white">
+              <h3 className="font-semibold text-white" title={user.name}>
                 ¡Bienvenido, {user.name.split(" ")[0]}! 👋
               </h3>
               <p className="text-sm text-gray-300">
@@ -81,7 +82,7 @@ export function WelcomeMessage() {
               className="text-gray-400 hover:text-white text-xl"
               aria-label="Cerrar mensaje"
             >
-              ×
+              <XIcon className="w-6 h-6" />
             </button>
           </div>
         </motion.div>
