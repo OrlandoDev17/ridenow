@@ -1,13 +1,17 @@
 // Tipos
 import {
   ArrowRightIcon,
+  CashIcon,
   CircleIcon,
+  CreditCardIcon,
   LeftRightIcon,
   LocationIcon,
+  PhoneIcon,
 } from "@/components/ui/Icons";
 import {
   AuthFormProps,
   NavbarItem,
+  PaymentMethod,
   TravelFormItem,
   TravelOptions,
 } from "./types";
@@ -98,13 +102,36 @@ export const TRAVEL_FORM: TravelFormItem[] = [
 
 export const TRAVEL_OPTIONS: TravelOptions[] = [
   {
-    id: "one-way",
+    id: "ONE_WAY",
     label: "Solo Ida",
     icon: ArrowRightIcon,
+    value: "ONE_WAY",
   },
   {
-    id: "round-trip",
+    id: "ROUND_TRIP",
     label: "Ida y Vuelta",
     icon: LeftRightIcon,
+    value: "ROUND_TRIP",
+  },
+];
+
+export const PAYMENT_METHODS: PaymentMethod[] = [
+  {
+    id: "CASH",
+    label: "Efectivo",
+    icon: CashIcon,
+    value: "CASH",
+  },
+  {
+    id: "PAGO_MOVIL",
+    label: "Pago Movil",
+    icon: PhoneIcon,
+    value: "PAGO_MOVIL",
+  },
+  {
+    id: "CREDITS",
+    label: "Creditos",
+    icon: CreditCardIcon,
+    value: "CREDITS",
   },
 ];

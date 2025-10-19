@@ -85,4 +85,12 @@ export interface TravelOptions {
   id: string;
   label: string;
   icon: ComponentType<IconProps>;
+  value: string;
+}
+
+export interface PaymentMethod {
+  id: string;
+  label: string;
+  icon: ComponentType<IconProps>;
+  value: string;
 }
