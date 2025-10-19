@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+import { Props } from "./TravelMap";
 
 // Dynamic import of TravelMap component with no SSR
 const TravelMap = dynamic(
@@ -16,14 +17,9 @@ const TravelMap = dynamic(
   }
 );
 
-interface TravelMapProps {
-  center?: [number, number];
-  zoom?: number;
-  width?: string;
-  height?: string;
-}
+interface TravelMapProps extends Props {}
 
-export function DynamicTravelMap(props: TravelMapProps = {}) {
+export function DynamicTravelMap(props: TravelMapProps) {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {

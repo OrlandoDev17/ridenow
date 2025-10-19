@@ -8,6 +8,19 @@ import { APIError } from "@/lib/types";
 import "leaflet/dist/leaflet.css";
 import "@/styles/leafletOverrides.css";
 
+export interface Props {
+  center?: L.LatLngTuple;
+  zoom?: number;
+  width?: string;
+  height?: string;
+  setOrigin: (origin: { latlng: L.LatLng; name: string } | null) => void;
+  setDestination: (
+    destination: { latlng: L.LatLng; name: string } | null
+  ) => void;
+  origin: { latlng: L.LatLng; name: string } | null;
+  destination: { latlng: L.LatLng; name: string } | null;
+}
+
 const originIcon = L.divIcon({
   className: "origin-marker",
   html: `<div class="w-6 h-6 rounded-full border-2 border-white bg-red-600 shadow-lg"></div>`,
@@ -40,21 +53,17 @@ export function TravelMap({
   zoom = 15,
   width = "100%",
   height = "100%",
-}) {
+  setOrigin,
+  setDestination,
+  origin,
+  destination,
+}: Props) {
   const mapRef = useRef<L.Map | null>(null);
 
   // Estado de seleccion
   const [placing, setPlacing] = useState("origin");
 
   // Marcadores y nombres
-  const [origin, setOrigin] = useState<{
-    latlng: L.LatLng;
-    name: string;
-  } | null>(null);
-  const [destination, setDestination] = useState<{
-    latlng: L.LatLng;
-    name: string;
-  } | null>(null);
 
   // Para mostrar informacion en la UI
   const [loadingName, setLoadingName] = useState(false);
@@ -108,7 +117,7 @@ export function TravelMap({
       style={{ width, height }}
     >
       {/* Controls simples */}
-      <div className="absolute z-[1000] left-4 bottom-4 bg-white/90 text-slate-800 p-2 max-w-md rounded-md shadow-md backdrop-blur-md">
+      <div className="absolute z-[500] left-4 bottom-4 bg-white/90 text-slate-800 p-2 max-w-md rounded-md shadow-md backdrop-blur-md">
         <div className="flex gap-2">
           <button
             onClick={() => setPlacing("origin")}

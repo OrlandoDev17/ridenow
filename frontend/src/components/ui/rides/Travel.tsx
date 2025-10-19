@@ -1,21 +1,99 @@
 "use client";
 
-import { useState } from "react";
-import { TRAVEL_FORM, TRAVEL_OPTIONS } from "@/lib/constants";
+import { useState, useEffect } from "react";
+import { PAYMENT_METHODS, TRAVEL_FORM, TRAVEL_OPTIONS } from "@/lib/constants";
 import { ArrowRightIcon, CalendarIcon } from "../Icons";
+import { useRides } from "@/hooks/useRides";
+import { useAuth } from "@/context/AuthContext";
 
-export function Travel() {
+interface TravelProps {
+  origin: { latlng: L.LatLng; name: string } | null;
+  destination: { latlng: L.LatLng; name: string } | null;
+}
+
+export function Travel({ origin, destination }: TravelProps) {
+  // ESTADOS QUE CAPTURAN LOS DATOS PARA EL FORMULARIO
+
+  // Opciones de viaje
+  const [selectedTravelOption, setSelectedTravelOption] = useState<
+    string | null
+  >("ONE_WAY");
+
+  // Metodo de pago
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
+    string | null
+  >("CASH");
+
+  // Es Programado
+  const [isScheduled, setIsScheduled] = useState(false);
+
+  // Estado para los valores de los inputs
+  const [formValues, setFormValues] = useState({
+    origin: "",
+    destination: "",
+  });
+
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<string | null>(
-    "one-way"
-  );
 
-  const handleOptionClick = (id: string) => {
-    setSelectedOption(id);
+  const { solicitarViaje } = useRides();
+
+  const { user } = useAuth();
+
+  const userCedula = user?.cedula;
+
+  // Efecto para actualizar los inputs cuando cambien los valores del mapa
+  useEffect(() => {
+    setFormValues({
+      origin: origin?.name || "",
+      destination: destination?.name || "",
+    });
+  }, [origin, destination]);
+
+  // Funciones para manejar los clicks
+
+  //Opciones de viaje
+  const handleTravelOptionClick = (id: string) => {
+    setSelectedTravelOption(id);
   };
 
+  //Metodo de pago
+  const handlePaymentMethodClick = (id: string) => {
+    setSelectedPaymentMethod(id);
+  };
+
+  //Programar viaje
+  const handleScheduleClick = () => {
+    setIsScheduled(!isScheduled);
+  };
+
+  //Funcion para abrir el modal
   const handleOpenModal = () => {
     setIsOpen(!isOpen);
+  };
+
+  //Funcion para manejar los cambios en los inputs
+  const handleInputChange = (name: string, value: string) => {
+    setFormValues((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!origin || !destination || !userCedula) {
+      console.warn("⚠️ Faltan datos para solicitar el viaje");
+      return;
+    }
+
+    await solicitarViaje({
+      origin,
+      destination,
+      userCedula,
+      scheduled: isScheduled,
+      paymentMethod: selectedPaymentMethod as "CASH" | "PAGO_MOVIL" | "CREDITS",
+      travelOption: selectedTravelOption as "ONE_WAY" | "ROUND_TRIP",
+    });
   };
 
   return (
@@ -34,6 +112,8 @@ export function Travel() {
                 id={name}
                 name={name}
                 placeholder={placeholder}
+                value={formValues[name as keyof typeof formValues]}
+                onChange={(e) => handleInputChange(name, e.target.value)}
                 className="w-full px-12 py-4 bg-secondary rounded-xl placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
               />
             </label>
@@ -46,9 +126,9 @@ export function Travel() {
             {TRAVEL_OPTIONS.map(({ id, label, icon: Icon }) => (
               <button
                 key={id}
-                onClick={() => handleOptionClick(id)}
+                onClick={() => handleTravelOptionClick(id)}
                 className={`flex flex-col items-center justify-center gap-4 py-10  rounded-lg  transition cursor-pointer ${
-                  selectedOption === id
+                  selectedTravelOption === id
                     ? "bg-blue-500"
                     : "bg-secondary hover:bg-blue-700/20"
                 }`}
@@ -59,16 +139,42 @@ export function Travel() {
             ))}
           </div>
           <button
-            onClick={handleOpenModal}
-            className="flex items-center justify-center gap-2 w-full py-3.5 bg-blue-600/20 rounded-xl font-medium hover:bg-blue-500 transition cursor-pointer mt-2"
+            onClick={handleOpenModal || handleScheduleClick}
+            className="flex items-center justify-center gap-2 w-full py-3.5 bg-blue-600/20 rounded-xl font-medium disabled:hover:bg-blue-600/20 transition cursor-pointer mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={true}
           >
             <CalendarIcon className="size-6" />
             Programar Viaje
           </button>
+          <div className="flex flex-col gap-4 mt-2">
+            <h3 className="text-xl font-semibold">
+              Seleccione su metodo de pago
+            </h3>
+            <div className="grid grid-cols-3 gap-4">
+              {PAYMENT_METHODS.map(({ id, label, icon: Icon }) => (
+                <button
+                  key={id}
+                  onClick={() => handlePaymentMethodClick(id)}
+                  className={`flex flex-col items-center justify-center gap-4 py-6  rounded-lg  transition cursor-pointer ${
+                    selectedPaymentMethod === id
+                      ? "bg-blue-500"
+                      : "bg-secondary hover:bg-blue-700/20"
+                  }`}
+                >
+                  <Icon className="text-gray-300 size-10" />
+                  <span className="text-lg font-medium">{label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
       <footer>
-        <button className="flex items-center justify-center gap-2 w-full py-3.5 bg-blue-500 rounded-xl font-medium hover:bg-blue-600 hover:-translate-y-1 transition cursor-pointer">
+        <button
+          type="submit"
+          onClick={handleSubmit}
+          className="flex items-center justify-center gap-2 w-full py-3.5 bg-blue-500 rounded-xl font-medium hover:bg-blue-600 hover:-translate-y-1 transition cursor-pointer"
+        >
           Solicitar Viaje <ArrowRightIcon className="size-6" />
         </button>
       </footer>
