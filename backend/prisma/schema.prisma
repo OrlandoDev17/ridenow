@@ -48,15 +48,15 @@ model Ride {
   destinationLat   Float?
   destinationLng   Float?
 
-  // 🚗 Tipo de viaje: LOCAL o INTERCITY
-  type             RideType
-
   // 📅 Agendamiento opcional
   scheduled        Boolean
   scheduledAt      DateTime?
 
+  // 📅 Opción de viaje
+  travelOption     TravelOption
+
   // 🕒 Tiempos del viaje
-  requestedAt      DateTime @default(now())
+  requestedAt      DateTime   @default(now())
   assignedAt       DateTime?
   completedAt      DateTime?
 
@@ -64,11 +64,11 @@ model Ride {
   status           RideStatus @default(PENDING)
 
   // 👤 Cliente que solicita el viaje
-  client           User    @relation("ClientRides", fields: [clientCedula], references: [cedula])
+  client           User       @relation("ClientRides", fields: [clientCedula], references: [cedula])
   clientCedula     String
 
   // 🚙 Conductor asignado (opcional al inicio)
-  driver           User?   @relation("DriverRides", fields: [driverCedula], references: [cedula])
+  driver           User?      @relation("DriverRides", fields: [driverCedula], references: [cedula])
   driverCedula     String?
 
   // 🗣️ Feedback del cliente
@@ -79,8 +79,12 @@ model Ride {
   fare             Float?
 
   // ✅ Confirmación de asignación
-  confirmationSent Boolean @default(false)
+  confirmationSent Boolean    @default(false)
 }
+
+
+
+
 model Credit {
   id           Int      @id @default(autoincrement())
   user         User     @relation(fields: [userCedula], references: [cedula])
@@ -141,16 +145,15 @@ enum RideStatus {
   CANCELLED
 }
 
-enum RideType {
-  LOCAL
-  INTERCITY
+enum TravelOption {
+  ONE_WAY
+  ROUND_TRIP
 }
 
 enum PaymentMethod {
   CASH
-  MOBILE
-  ZELLE
-  CREDIT
+  PAGO_MOVIL
+  CREDITS
 }
 
 enum ReportStatus {
