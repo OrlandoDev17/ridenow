@@ -3,7 +3,7 @@
 import { WelcomeMessage } from "@/components/ui/WelcomeMessage";
 import { Travel } from "@/components/ui/rides/Travel";
 import { DynamicTravelMap } from "@/components/ui/rides/DynamicTravelMap";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import L from "leaflet";
 
 export default function RidesPage() {
@@ -15,16 +15,28 @@ export default function RidesPage() {
     latlng: L.LatLng;
     name: string;
   } | null>(null);
+
+  useEffect(() => {
+    const fetchAdminData = async () => {
+      try {
+        const res = await fetch("http://localhost:3001/api/admin");
+        const data = await res.json();
+
+        console.log("📦 Usuarios:", data.users);
+        console.log("🚗 Viajes:", data.rides);
+      } catch (error) {
+        console.error("❌ Error al obtener datos del admin:", error);
+      }
+    };
+
+    fetchAdminData();
+  }, []);
+
   return (
     <>
       <main className="flex relative max-w-11/12 mx-auto w-full">
         <WelcomeMessage />
-        <Travel
-          origin={origin}
-          setOrigin={setOrigin}
-          destination={destination}
-          setDestination={setDestination}
-        />
+        <Travel origin={origin} destination={destination} />
         <div className="w-full h-[calc(100vh-5.1rem)]">
           <DynamicTravelMap
             origin={origin}

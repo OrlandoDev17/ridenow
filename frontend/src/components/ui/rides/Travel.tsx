@@ -5,6 +5,7 @@ import { PAYMENT_METHODS, TRAVEL_FORM, TRAVEL_OPTIONS } from "@/lib/constants";
 import { ArrowRightIcon, CalendarIcon } from "../Icons";
 import { useRides } from "@/hooks/useRides";
 import { useAuth } from "@/context/AuthContext";
+import type L from "leaflet";
 
 interface TravelProps {
   origin: { latlng: L.LatLng; name: string } | null;
