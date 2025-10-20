@@ -6,6 +6,7 @@ require("dotenv").config(); // Carga las variables de entorno desde .env
 // Importamos las rutas
 const authRoutes = require("./routes/auth.routes");
 const rideRoutes = require("./routes/ride.routes");
+const adminRoutes = require("./routes/adminData.routes");
 
 // Inicializamos la app de Express
 const app = express();
@@ -17,6 +18,7 @@ app.use(express.json()); // Permite recibir datos en formato JSON
 // Usar Rutas
 app.use("/api/auth", authRoutes);
 app.use("/api", rideRoutes);
+app.use("/api", adminRoutes);
 
 // Usamos la carpeta uploads para servir archivos estáticos
 app.use("/uploads", express.static("uploads"));
