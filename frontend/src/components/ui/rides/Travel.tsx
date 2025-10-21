@@ -5,24 +5,19 @@ import { PAYMENT_METHODS, TRAVEL_FORM, TRAVEL_OPTIONS } from "@/lib/constants";
 import { ArrowRightIcon, CalendarIcon } from "../Icons";
 import { useRides } from "@/hooks/useRides";
 import { useAuth } from "@/context/AuthContext";
-import type L from "leaflet";
-
-interface TravelProps {
-  origin: { latlng: L.LatLng; name: string } | null;
-  destination: { latlng: L.LatLng; name: string } | null;
-}
+import type { TravelProps, PaymentMethodCode, TravelOptionCode } from "@/lib/types";
 
 export function Travel({ origin, destination }: TravelProps) {
   // ESTADOS QUE CAPTURAN LOS DATOS PARA EL FORMULARIO
 
   // Opciones de viaje
   const [selectedTravelOption, setSelectedTravelOption] = useState<
-    string | null
+    TravelOptionCode
   >("ONE_WAY");
 
   // Metodo de pago
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
-    string | null
+    PaymentMethodCode
   >("CASH");
 
   // Es Programado
@@ -53,12 +48,12 @@ export function Travel({ origin, destination }: TravelProps) {
   // Funciones para manejar los clicks
 
   //Opciones de viaje
-  const handleTravelOptionClick = (id: string) => {
+  const handleTravelOptionClick = (id: TravelOptionCode) => {
     setSelectedTravelOption(id);
   };
 
   //Metodo de pago
-  const handlePaymentMethodClick = (id: string) => {
+  const handlePaymentMethodClick = (id: PaymentMethodCode) => {
     setSelectedPaymentMethod(id);
   };
 
@@ -92,8 +87,8 @@ export function Travel({ origin, destination }: TravelProps) {
       destination,
       userCedula,
       scheduled: isScheduled,
-      paymentMethod: selectedPaymentMethod as "CASH" | "PAGO_MOVIL" | "CREDITS",
-      travelOption: selectedTravelOption as "ONE_WAY" | "ROUND_TRIP",
+      paymentMethod: selectedPaymentMethod,
+      travelOption: selectedTravelOption,
     });
   };
 
@@ -127,7 +122,7 @@ export function Travel({ origin, destination }: TravelProps) {
             {TRAVEL_OPTIONS.map(({ id, label, icon: Icon }) => (
               <button
                 key={id}
-                onClick={() => handleTravelOptionClick(id)}
+                onClick={() => handleTravelOptionClick(id as TravelOptionCode)}
                 className={`flex flex-col items-center justify-center gap-4 py-10  rounded-lg  transition cursor-pointer ${
                   selectedTravelOption === id
                     ? "bg-blue-500"
@@ -155,7 +150,7 @@ export function Travel({ origin, destination }: TravelProps) {
               {PAYMENT_METHODS.map(({ id, label, icon: Icon }) => (
                 <button
                   key={id}
-                  onClick={() => handlePaymentMethodClick(id)}
+                  onClick={() => handlePaymentMethodClick(id as PaymentMethodCode)}
                   className={`flex flex-col items-center justify-center gap-4 py-6  rounded-lg  transition cursor-pointer ${
                     selectedPaymentMethod === id
                       ? "bg-blue-500"

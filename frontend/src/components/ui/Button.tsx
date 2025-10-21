@@ -1,11 +1,4 @@
-import { ReactNode } from "react";
-
-interface ButtonProps {
-  href: string;
-  children: ReactNode;
-  type?: "default" | "outline";
-  target?: boolean;
-}
+import { ButtonProps } from "@/lib/types";
 
 export function Button({
   href,

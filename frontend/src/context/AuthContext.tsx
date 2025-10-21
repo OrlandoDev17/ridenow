@@ -2,28 +2,7 @@
 
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
-import { FormValues } from "@/lib/types";
-
-interface AuthContextType {
-  token: string | null;
-  user: any;
-  isAuthenticated: boolean;
-  isHydrated: boolean;
-  loading: boolean;
-  error: string | null;
-  success: boolean;
-  formValues: FormValues;
-  role: string;
-  logoutSuccess: boolean;
-  setLogoutSuccess: (success: boolean) => void;
-  setFormValues: (
-    values: FormValues | ((prevValues: FormValues) => FormValues)
-  ) => void;
-  setRole: (role: string) => void;
-  login: (cedula: string, password: string) => Promise<void>;
-  register: () => Promise<void>;
-  logout: () => void;
-}
+import { FormValues, AuthContextType } from "@/lib/types";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 

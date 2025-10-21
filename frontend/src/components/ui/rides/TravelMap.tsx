@@ -4,22 +4,9 @@ import { useRef, useState } from "react";
 import { MapContainer, TileLayer, useMapEvents, Marker } from "react-leaflet";
 import L from "leaflet";
 import axios, { AxiosError } from "axios";
-import { APIError } from "@/lib/types";
+import { APIError, MapProps } from "@/lib/types";
 import "leaflet/dist/leaflet.css";
 import "@/styles/leafletOverrides.css";
-
-export interface Props {
-  center?: L.LatLngTuple;
-  zoom?: number;
-  width?: string;
-  height?: string;
-  setOrigin: (origin: { latlng: L.LatLng; name: string } | null) => void;
-  setDestination: (
-    destination: { latlng: L.LatLng; name: string } | null
-  ) => void;
-  origin: { latlng: L.LatLng; name: string } | null;
-  destination: { latlng: L.LatLng; name: string } | null;
-}
 
 const originIcon = L.divIcon({
   className: "origin-marker",
@@ -57,7 +44,7 @@ export function TravelMap({
   setDestination,
   origin,
   destination,
-}: Props) {
+}: MapProps) {
   const mapRef = useRef<L.Map | null>(null);
 
   // Estado de seleccion

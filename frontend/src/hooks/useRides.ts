@@ -1,15 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import L from "leaflet";
-
-interface UseRidesProps {
-  origin: { latlng: L.LatLng; name: string } | null;
-  destination: { latlng: L.LatLng; name: string } | null;
-  userCedula: string | null;
-  scheduled: boolean;
-  paymentMethod: "CASH" | "PAGO_MOVIL" | "CREDITS";
-  travelOption: "ONE_WAY" | "ROUND_TRIP";
-}
+import type { UseRidesRequest } from "@/lib/types";
 
 export function useRides() {
   const [loading, setLoading] = useState(false);
@@ -25,7 +16,7 @@ export function useRides() {
     scheduled,
     paymentMethod,
     travelOption,
-  }: UseRidesProps) => {
+  }: UseRidesRequest) => {
     if (!origin || !destination || !userCedula) {
       setError("Faltan datos para solicitar el viaje");
       return;
