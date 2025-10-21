@@ -12,7 +12,12 @@ const adminRoutes = require("./routes/adminData.routes");
 const app = express();
 
 // Middlewares globales
-app.use(cors()); // Permite peticiones desde otros dominios (útil para frontend)
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://ridenow-psi.vercel.app"],
+    credentials: true,
+  })
+); // Permite peticiones desde otros dominios (útil para frontend)
 app.use(express.json()); // Permite recibir datos en formato JSON
 
 // Usar Rutas
