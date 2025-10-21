@@ -1,7 +1,7 @@
 const twilio = require("twilio");
 
-const accountSid = "AC281ec04884c3b6266642a4107913b4ec";
-const authToken = "094d759ba296cb9c2c680887fdd90143"; // reemplaza esto con tu token real
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = twilio(accountSid, authToken);
 
 function sendWhatsAppMessage({ to, body }) {

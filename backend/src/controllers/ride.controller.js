@@ -2,7 +2,20 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const { sendWhatsAppMessage } = require("../utils/sendWhatsAppMessage"); // asegúrate de importar correctamente
 
+const travelOptions = {
+  ONE_WAY: "Solo Ida",
+  ROUND_TRIP: "Ida y Vuelta",
+};
+
+const paymentMethods = {
+  CASH: "Efectivo",
+  PAGO_MOVIL: "Pago Móvil",
+  CREDITS: "Créditos",
+};
+
 exports.createRide = async (req, res) => {
+  console.log(req.body);
+
   const {
     origin,
     originLat,
@@ -52,13 +65,24 @@ exports.createRide = async (req, res) => {
       },
     });
 
+    const client = await prisma.user.findUnique({
+      where: {
+        cedula: clientCedula,
+      },
+    });
+
+    if (!client) {
+      return res.status(404).json({ error: "Cliente no encontrado" });
+    }
+
     // 📲 Notificar por WhatsApp
     const mensaje = `🚗 Nuevo viaje disponible
 🟢 Origen: ${origin}
 🎯 Destino: ${destination}
-🧍 Cliente: ${clientCedula}
-💰 Pago: ${paymentMethod}
-📅 Tipo: ${travelOption}`;
+🧍 Cliente: ${client.name}
+� Telefono: ${client.phone}
+�� Pago: ${paymentMethods[paymentMethod]}
+📅 Tipo: ${travelOptions[travelOption]}`;
 
     await sendWhatsAppMessage({ to: "+584242860846", body: mensaje });
 
