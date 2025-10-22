@@ -5,20 +5,23 @@ import { PAYMENT_METHODS, TRAVEL_FORM, TRAVEL_OPTIONS } from "@/lib/constants";
 import { ArrowRightIcon, CalendarIcon } from "../Icons";
 import { useRides } from "@/hooks/useRides";
 import { useAuth } from "@/context/AuthContext";
-import type { TravelProps, PaymentMethodCode, TravelOptionCode } from "@/lib/types";
+import { useMessage } from "@/context/MessageContext";
+import type {
+  TravelProps,
+  PaymentMethodCode,
+  TravelOptionCode,
+} from "@/lib/types";
 
 export function Travel({ origin, destination }: TravelProps) {
   // ESTADOS QUE CAPTURAN LOS DATOS PARA EL FORMULARIO
 
   // Opciones de viaje
-  const [selectedTravelOption, setSelectedTravelOption] = useState<
-    TravelOptionCode
-  >("ONE_WAY");
+  const [selectedTravelOption, setSelectedTravelOption] =
+    useState<TravelOptionCode>("ONE_WAY");
 
   // Metodo de pago
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
-    PaymentMethodCode
-  >("CASH");
+  const [selectedPaymentMethod, setSelectedPaymentMethod] =
+    useState<PaymentMethodCode>("CASH");
 
   // Es Programado
   const [isScheduled, setIsScheduled] = useState(false);
@@ -34,6 +37,8 @@ export function Travel({ origin, destination }: TravelProps) {
   const { solicitarViaje } = useRides();
 
   const { user } = useAuth();
+
+  const { setShowMessage, setRequestRide } = useMessage();
 
   const userCedula = user?.cedula;
 
@@ -90,6 +95,9 @@ export function Travel({ origin, destination }: TravelProps) {
       paymentMethod: selectedPaymentMethod,
       travelOption: selectedTravelOption,
     });
+
+    setShowMessage(true);
+    setRequestRide(true);
   };
 
   return (
@@ -150,7 +158,9 @@ export function Travel({ origin, destination }: TravelProps) {
               {PAYMENT_METHODS.map(({ id, label, icon: Icon }) => (
                 <button
                   key={id}
-                  onClick={() => handlePaymentMethodClick(id as PaymentMethodCode)}
+                  onClick={() =>
+                    handlePaymentMethodClick(id as PaymentMethodCode)
+                  }
                   className={`flex flex-col items-center justify-center gap-4 py-6  rounded-lg  transition cursor-pointer ${
                     selectedPaymentMethod === id
                       ? "bg-blue-500"

@@ -4,9 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LogOutIcon } from "../Icons";
 
-const pathname = usePathname();
-
 export function Sidebar({ photoUrl, name, cedula }: User) {
+  const pathname = usePathname();
   const userFirstLetter = name.charAt(0).toUpperCase();
 
   return (

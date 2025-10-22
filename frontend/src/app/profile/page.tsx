@@ -8,7 +8,6 @@ import { PROFILE_FORM } from "@/lib/constants";
 
 export default function ProfilePage() {
   const [formData, setFormData] = useState<Partial<User>>({});
-
   const { profile, updateProfile, loading, error, success } = useProfile();
 
   useEffect(() => {

@@ -1,12 +1,13 @@
 "use client";
 
-import { WelcomeMessage } from "@/components/ui/WelcomeMessage";
 import { Travel } from "@/components/ui/rides/Travel";
 import { DynamicTravelMap } from "@/components/ui/rides/DynamicTravelMap";
 import { useEffect, useState } from "react";
 import L from "leaflet";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import { Message } from "@/components/ui/Message";
+import { useMessage } from "@/context/MessageContext";
 
 export default function RidesPage() {
   const [origin, setOrigin] = useState<{
@@ -19,10 +20,13 @@ export default function RidesPage() {
   } | null>(null);
 
   const router = useRouter();
-  const { isAuthenticated, success } = useAuth();
+  const { user, success } = useAuth();
+
+  const { showMessage, requestRide } = useMessage();
 
   useEffect(() => {
-    if (!isAuthenticated && !success) {
+    const token = localStorage.getItem("token");
+    if (!token) {
       router.push("/auth/login");
     }
   }, []);
@@ -46,7 +50,12 @@ export default function RidesPage() {
   return (
     <>
       <main className="flex relative max-w-11/12 mx-auto w-full">
-        <WelcomeMessage />
+        {user?.name && requestRide && showMessage && (
+          <Message name={user.name} action="ride" />
+        )}
+        {user?.name && success && !requestRide && (
+          <Message name={user.name} action="login" />
+        )}
         <Travel origin={origin} destination={destination} />
         <div className="w-full h-[calc(100vh-5.1rem)]">
           <DynamicTravelMap

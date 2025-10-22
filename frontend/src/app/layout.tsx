@@ -5,6 +5,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { usePathname } from "next/navigation";
+import { MessageProvider } from "@/context/MessageContext";
 
 const poppinsFont = Poppins({
   variable: "--font-poppins",
@@ -36,8 +37,10 @@ export default function RootLayout({
       </head>
       <body className={`${poppinsFont.variable} antialiased`}>
         <AuthProvider>
-          {showHeader && <Header />}
-          <div>{children}</div>
+          <MessageProvider>
+            {showHeader && <Header />}
+            <div>{children}</div>
+          </MessageProvider>
         </AuthProvider>
       </body>
     </html>
