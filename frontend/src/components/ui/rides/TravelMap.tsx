@@ -39,7 +39,7 @@ export function TravelMap({
   center = [10.243, -66.857] as L.LatLngTuple,
   zoom = 15,
   width = "100%",
-  height = "100%",
+  height = "96%",
   setOrigin,
   setDestination,
   origin,

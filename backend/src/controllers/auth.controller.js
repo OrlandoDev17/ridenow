@@ -22,16 +22,23 @@ exports.registerUser = async (req, res) => {
       .json({ error: "Ya existe un usuario con esa cédula" });
   }
 
+  // 🔐 Hashear la contraseña antes de guardarla
+  const hashedPassword = await bcrypt.hash(password, 10);
+
   const newUser = await prisma.user.create({
-    data: { cedula, name, phone, password, role },
+    data: {
+      cedula,
+      name,
+      phone,
+      password: hashedPassword,
+      role,
+    },
   });
 
   const token = jwt.sign(
     { cedula: newUser.cedula, role: newUser.role },
-    process.env.JWT_SECRET,
-    {
-      expiresIn: "1d",
-    }
+    JWT_SECRET,
+    { expiresIn: "1d" }
   );
 
   return res.status(201).json({
@@ -40,8 +47,6 @@ exports.registerUser = async (req, res) => {
       cedula: newUser.cedula,
       name: newUser.name,
       phone: newUser.phone,
-      email: newUser.email,
-      address: newUser.address,
       role: newUser.role,
       createdAt: newUser.createdAt,
       updatedAt: newUser.updatedAt,
@@ -57,9 +62,23 @@ exports.registerUser = async (req, res) => {
 exports.login = async (req, res) => {
   const { cedula, password } = req.body;
 
-  try {
-    const user = await prisma.user.findUnique({ where: { cedula } });
+  const user = await prisma.user.findUnique({
+    where: { cedula },
+    select: {
+      cedula: true,
+      name: true,
+      phone: true,
+      password: true,
+      email: true,
+      address: true,
+      role: true,
+      photoUrl: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
 
+  try {
     if (!user) {
       return res.status(404).json({ error: "Usuario no encontrado" });
     }
@@ -75,15 +94,12 @@ exports.login = async (req, res) => {
       { expiresIn: "1d" }
     );
 
+    const { password: hashedPassword, ...safeUser } = user;
+
     return res.json({
       message: "Login exitoso",
       token,
-      user: {
-        cedula: user.cedula,
-        name: user.name,
-        phone: user.phone,
-        role: user.role,
-      },
+      user: safeUser,
     });
   } catch (error) {
     console.error("❌ Error en login:", error);

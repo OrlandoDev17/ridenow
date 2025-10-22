@@ -20,7 +20,9 @@ export default function RootLayout({
   const pathname = usePathname();
 
   const showHeader =
-    pathname !== "/auth/login" && pathname !== "/auth/register";
+    pathname !== "/auth/login" &&
+    pathname !== "/auth/register" &&
+    pathname !== "/profile";
 
   return (
     <html lang="es">

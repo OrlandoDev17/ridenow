@@ -72,9 +72,12 @@ export function Header() {
                 <LogOutIcon />
                 Cerrar Sesión
               </button>
-              <span className="flex items-center justify-center text-2xl font-semibold text-blue-500 size-12 bg-blue-500/10 rounded-full">
+              <Link
+                href="/profile"
+                className="flex items-center justify-center text-2xl font-semibold text-blue-500 size-12 bg-blue-500/10 rounded-full"
+              >
                 {userFirstLetter}
-              </span>
+              </Link>
             </>
           ) : (
             <>

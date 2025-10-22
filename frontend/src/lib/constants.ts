@@ -4,14 +4,22 @@ import {
   CashIcon,
   CircleIcon,
   CreditCardIcon,
+  HomeIcon,
+  IdCardIcon,
   LeftRightIcon,
   LocationIcon,
+  MailIcon,
+  MapIcon,
   PhoneIcon,
+  SettingsIcon,
+  UserIcon,
 } from "@/components/ui/Icons";
 import {
   AuthFormProps,
   NavbarItem,
   PaymentMethod,
+  ProfileFormProps,
+  SidebarItem,
   TravelFormItem,
   TravelOptions,
 } from "./types";
@@ -133,5 +141,67 @@ export const PAYMENT_METHODS: PaymentMethod[] = [
     label: "Creditos",
     icon: CreditCardIcon,
     value: "CREDITS",
+  },
+];
+
+export const SIDEBAR_LINKS: SidebarItem[] = [
+  {
+    id: "home",
+    label: "Inicio",
+    href: "/",
+    icon: HomeIcon,
+  },
+  {
+    id: "profile",
+    label: "Mi Perfil",
+    href: "/profile",
+    icon: UserIcon,
+  },
+  {
+    id: "rides",
+    label: "Mis Viajes",
+    href: "/profile/rides",
+    icon: MapIcon,
+  },
+  {
+    id: "settings",
+    label: "Configuración",
+    href: "/profile/settings",
+    icon: SettingsIcon,
+  },
+];
+
+export const PROFILE_FORM: ProfileFormProps[] = [
+  {
+    id: "name",
+    label: "Nombre Completo",
+    name: "name",
+    icon: UserIcon,
+  },
+  {
+    id: "cedula",
+    label: "Cedula de Identidad",
+    name: "cedula",
+    icon: IdCardIcon,
+  },
+  {
+    id: "phone",
+    label: "Número de Teléfono",
+    name: "phone",
+    icon: PhoneIcon,
+  },
+  {
+    id: "address",
+    label: "Dirección",
+    name: "address",
+    placeholder: "Calle 123, Urb. 123",
+    icon: LocationIcon,
+  },
+  {
+    id: "email",
+    label: "Correo Electrónico",
+    name: "email",
+    placeholder: "email@example.com",
+    icon: MailIcon,
   },
 ];

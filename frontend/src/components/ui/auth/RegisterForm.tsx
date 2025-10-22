@@ -75,38 +75,13 @@ export function RegisterForm() {
         </label>
       ))}
 
-      <div className="grid grid-cols-2 gap-4">
-        <button
-          type="button"
-          onClick={() => handleRoleChange("CLIENT")}
-          className={`cursor-pointer px-4 py-2 rounded-lg transition ${
-            role === "CLIENT"
-              ? "bg-blue-500 text-white hover:bg-blue-600"
-              : "bg-gray-500 text-white opacity-50 cursor-not-allowed"
-          }`}
-        >
-          Eres Cliente
-        </button>
-        <button
-          type="button"
-          onClick={() => handleRoleChange("DRIVER")}
-          className={`cursor-pointer px-4 py-2 rounded-lg transition ${
-            role === "DRIVER"
-              ? "bg-blue-500 text-white hover:bg-blue-600"
-              : "bg-gray-500 text-white opacity-50 cursor-not-allowed"
-          }`}
-        >
-          Eres Conductor
-        </button>
-      </div>
-
       {error && <p className="text-red-500 text-sm text-center">{error}</p>}
       {success && (
         <p className="text-green-500 text-sm text-center">Registro exitoso</p>
       )}
 
       <button
-        className={`cursor-pointer px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition disabled:opacity-50 flex items-center justify-center gap-2 ${
+        className={`cursor-pointer px-4 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition disabled:opacity-50 flex items-center justify-center gap-2 ${
           loading ? "opacity-50 cursor-not-allowed" : ""
         }`}
         disabled={loading}
