@@ -17,6 +17,8 @@ app.use(
   cors({
     origin: ["http://localhost:3000", "https://ridenow-psi.vercel.app"],
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 ); // Permite peticiones desde otros dominios (útil para frontend)
 app.use(express.json()); // Permite recibir datos en formato JSON
