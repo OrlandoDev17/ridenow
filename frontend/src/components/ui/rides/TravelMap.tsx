@@ -38,8 +38,6 @@ const ClickHandler = ({
 export function TravelMap({
   center = [10.243, -66.857] as L.LatLngTuple,
   zoom = 15,
-  width = "100%",
-  height = "96%",
   setOrigin,
   setDestination,
   origin,
@@ -99,10 +97,7 @@ export function TravelMap({
   const tileUrl = `https://api.maptiler.com/maps/bright-v2/{z}/{x}/{y}.png?key=${TILE_KEY}`;
 
   return (
-    <div
-      className="relative rounded-2xl overflow-hidden shadow-xl border border-white/10"
-      style={{ width, height }}
-    >
+    <div className="relative rounded-2xl overflow-hidden shadow-xl border border-white/10 w-full h-[500px] lg:h-full">
       {/* Controls simples */}
       <div className="absolute z-[500] left-4 bottom-4 bg-white/90 text-slate-800 p-2 max-w-md rounded-md shadow-md backdrop-blur-md">
         <div className="flex gap-2">
@@ -144,7 +139,7 @@ export function TravelMap({
               {placing === "origin" ? "Origen (rojo)" : "Destino (azul)"}
             </strong>
           </div>
-          <div className="mt-1">
+          <div className="mt-1 hidden lg:block">
             <div className="text-xs text-gray-600">Origen:</div>
             <div className="text-sm">
               {origin ? origin.name : "No seleccionado"}

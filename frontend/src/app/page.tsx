@@ -49,15 +49,17 @@ export default function RidesPage() {
 
   return (
     <>
-      <main className="flex relative max-w-11/12 mx-auto w-full">
+      <main className="flex flex-col lg:flex-row relative max-w-11/12 mx-auto w-full">
         {user?.name && requestRide && showMessage && (
           <Message name={user.name} action="ride" />
         )}
         {user?.name && success && !requestRide && (
           <Message name={user.name} action="login" />
         )}
-        <Travel origin={origin} destination={destination} />
-        <div className="w-full h-[calc(100vh-5.1rem)]">
+        <aside className="flex flex-col gap-6 max-w-full lg:max-w-md 2xl:max-w-lg w-full py-6 lg:pr-16 h-full order-2 lg:order-1">
+          <Travel origin={origin} destination={destination} />
+        </aside>
+        <div className="w-full h-auto lg:h-[calc(100vh-5.1rem)] order-1 lg:order-2">
           <DynamicTravelMap
             origin={origin}
             destination={destination}

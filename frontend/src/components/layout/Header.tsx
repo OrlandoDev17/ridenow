@@ -16,6 +16,7 @@ import { LogOutIcon } from "@/ui/Icons";
 
 //Constants
 import { NAVBAR_LINKS } from "@/lib/constants";
+import { Menu } from "./Menu";
 
 export function Header() {
   const {
@@ -50,7 +51,8 @@ export function Header() {
             Ride<span className="text-blue-500">Now</span>
           </h2>
         </div>
-        <nav className="flex items-center gap-6 flex-1 justify-center mt-1">
+
+        <nav className="hidden lg:flex items-center gap-6 flex-1 justify-center mt-1">
           {NAVBAR_LINKS.map((link) => (
             <Link
               className="flex flex-col text-lg relative hover:text-blue-400 transition group"
@@ -62,7 +64,7 @@ export function Header() {
             </Link>
           ))}
         </nav>
-        <aside className="flex items-center gap-4">
+        <aside className="hidden lg:flex items-center gap-4">
           {isAuthenticated && user ? (
             <>
               <button
@@ -88,6 +90,9 @@ export function Header() {
             </>
           )}
         </aside>
+        <div className="lg:hidden flex">
+          <Menu />
+        </div>
       </div>
     </header>
   );

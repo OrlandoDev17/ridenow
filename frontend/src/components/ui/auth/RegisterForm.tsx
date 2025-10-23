@@ -55,7 +55,7 @@ export function RegisterForm() {
       {REGISTER_FORM.map(({ id, type, placeholder, required, name }) => (
         <label className="flex flex-col gap-2 relative" key={id}>
           <input
-            className="px-4 py-3 bg-primary rounded-lg focus:outline-none focus:border-blue-500 transition"
+            className="px-4 py-3 bg-secondary xs:bg-primary rounded-lg focus:outline-none focus:border-blue-500 transition"
             type={isVisible && type === "password" ? "text" : type}
             placeholder={placeholder}
             required={required}

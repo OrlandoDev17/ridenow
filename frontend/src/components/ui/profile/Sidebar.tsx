@@ -9,7 +9,7 @@ export function Sidebar({ photoUrl, name, cedula }: User) {
   const userFirstLetter = name.charAt(0).toUpperCase();
 
   return (
-    <aside className="flex flex-col gap-6 w-sm border-r-2 border-gray-700 p-4 h-screen">
+    <aside className="hidden lg:flex flex-col gap-6 w-sm border-r-2 border-gray-700 p-4 h-screen">
       <header className="flex items-center gap-4">
         {photoUrl ? (
           <img

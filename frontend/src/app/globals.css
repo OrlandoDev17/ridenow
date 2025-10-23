@@ -4,6 +4,7 @@
   --font-poppins: var(--font-poppins);
   --color-primary: #111827;
   --color-secondary: #1f2937;
+  --breakpoint-xs: 400px;
 }
 
 html {

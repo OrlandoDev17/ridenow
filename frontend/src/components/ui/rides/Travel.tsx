@@ -101,8 +101,8 @@ export function Travel({ origin, destination }: TravelProps) {
   };
 
   return (
-    <aside className="flex flex-col gap-6 max-w-lg w-full border-r-2 border-gray-800 py-6 pr-16 h-[calc(100vh-5.1rem)]">
-      <div className="flex flex-col gap-6 flex-1">
+    <>
+      <div className="flex flex-col gap-4 2xl:gap-6 flex-1">
         <form className="flex flex-col gap-6">
           {TRAVEL_FORM.map(({ id, name, icon: Icon, placeholder }) => (
             <label
@@ -131,7 +131,7 @@ export function Travel({ origin, destination }: TravelProps) {
               <button
                 key={id}
                 onClick={() => handleTravelOptionClick(id as TravelOptionCode)}
-                className={`flex flex-col items-center justify-center gap-4 py-10  rounded-lg  transition cursor-pointer ${
+                className={`flex flex-col items-center justify-center gap-2 2xl:gap-4 py-6 2xl:py-10 rounded-lg transition cursor-pointer ${
                   selectedTravelOption === id
                     ? "bg-blue-500"
                     : "bg-secondary hover:bg-blue-700/20"
@@ -184,6 +184,6 @@ export function Travel({ origin, destination }: TravelProps) {
           Solicitar Viaje <ArrowRightIcon className="size-6" />
         </button>
       </footer>
-    </aside>
+    </>
   );
 }

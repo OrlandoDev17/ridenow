@@ -14,7 +14,7 @@ export default function RegisterPage() {
     <main className="flex items-center justify-center h-screen">
       <AnimatePresence>
         <motion.article
-          className="flex flex-col gap-4 py-10 px-8 bg-secondary rounded-2xl max-w-md w-full"
+          className="flex flex-col gap-4 py-10 px-8 xs:bg-secondary rounded-2xl max-w-md w-full"
           initial={variants.initial}
           animate={variants.animate}
           exit={variants.exit}

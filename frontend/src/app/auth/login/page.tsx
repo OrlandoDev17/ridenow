@@ -62,7 +62,7 @@ export default function LoginPage() {
           animate="animate"
           exit="exit"
           transition={{ duration: 0.5 }}
-          className="flex flex-col gap-4 py-8 px-8 max-w-md w-full bg-secondary rounded-2xl shadow-xl"
+          className="flex flex-col gap-4 py-8 px-8 max-w-md w-full xs:bg-secondary rounded-2xl sm:shadow-xl"
         >
           <div className="flex flex-col items-center gap-4">
             <h3 className="text-3xl font-semibold">Iniciar Sesión</h3>
@@ -78,7 +78,7 @@ export default function LoginPage() {
                 placeholder={form.placeholder}
                 required={form.required}
                 name={form.name}
-                className="px-4 py-4 rounded-xl bg-primary focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                className="px-4 py-4 rounded-xl bg-secondary sm:bg-primary focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
               />
             ))}
             {error && (

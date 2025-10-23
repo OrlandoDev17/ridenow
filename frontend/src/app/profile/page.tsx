@@ -44,15 +44,15 @@ export default function ProfilePage() {
       ) : (
         <div>Por favor, inicia sesión</div>
       )}
-      <section className="flex flex-col gap-6 max-w-8/12 mx-auto w-full py-8">
+      <section className="flex flex-col gap-6 px-6 lg:px-16 mx-auto w-full py-8">
         <header className="flex flex-col gap-2">
           <h2 className="text-4xl font-semibold">Mi perfil</h2>
-          <p className="text-lg text-gray-400">
+          <p className="text-lg text-gray-400 text-balance">
             Completa tu perfil para acceder a todas las funcionalidades y una
             mejor experiencia.
           </p>
         </header>
-        <div className="flex gap-12 mt-4">
+        <div className="flex sm:flex-row flex-col gap-6 sm:gap-12 mt-4">
           <div>
             {profile?.photoUrl ? (
               <img
@@ -68,9 +68,9 @@ export default function ProfilePage() {
           </div>
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col gap-8 flex-1 h-full"
+            className="flex flex-col gap-4 sm:gap-8 flex-1 h-full"
           >
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {completedFields.map(({ id, label, name, icon: Icon }) => (
                 <label
                   key={id}
@@ -118,7 +118,7 @@ export default function ProfilePage() {
                 )
               )}
             </div>
-            <footer className="flex justify-end mt-8">
+            <footer className="flex justify-end mt-2 sm:mt-8">
               <button className="px-8 py-4 bg-blue-500 rounded-xl hover:bg-blue-600 hover:-translate-y-1 transition duration-200 cursor-pointer">
                 Guardar Cambios
               </button>
