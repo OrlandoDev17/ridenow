@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">RideNow</string>
+    <string name="title_activity_main">RideNow</string>
+    <string name="package_name">com.ridenow.app</string>
+    <string name="custom_url_scheme">com.ridenow.app</string>
+</resources>
