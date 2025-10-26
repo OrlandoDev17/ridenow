@@ -15,7 +15,12 @@ const app = express();
 // Middlewares globales
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://ridenow-psi.vercel.app"],
+    origin: [
+      "http://localhost:3000",
+      "https://ridenow-psi.vercel.app",
+      "capacitor://localhost",
+      "http://localhost",
+    ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],

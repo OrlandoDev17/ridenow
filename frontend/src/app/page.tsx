@@ -31,21 +31,21 @@ export default function RidesPage() {
     }
   }, []);
 
-  // useEffect(() => {
-  //   const fetchAdminData = async () => {
-  //     try {
-  //       const res = await fetch("http://localhost:3001/api/admin");
-  //       const data = await res.json();
+  useEffect(() => {
+    const fetchAdminData = async () => {
+      try {
+        const res = await fetch("http://localhost:3001/api/admin");
+        const data = await res.json();
 
-  //       console.log("📦 Usuarios:", data.users);
-  //       console.log("🚗 Viajes:", data.rides);
-  //     } catch (error) {
-  //       console.error("❌ Error al obtener datos del admin:", error);
-  //     }
-  //   };
+        console.log("📦 Usuarios:", data.users);
+        console.log("🚗 Viajes:", data.rides);
+      } catch (error) {
+        console.error("❌ Error al obtener datos del admin:", error);
+      }
+    };
 
-  //   fetchAdminData();
-  // }, []);
+    fetchAdminData();
+  }, []);
 
   return (
     <>
