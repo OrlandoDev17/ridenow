@@ -15,6 +15,7 @@ model User {
   role         Role
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  pushToken    String?
 
   // Campos opcionales para completar el perfil
   email        String?  @unique

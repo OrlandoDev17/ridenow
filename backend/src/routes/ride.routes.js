@@ -1,8 +1,18 @@
 const express = require("express");
 const router = express.Router();
-const { createRide } = require("../controllers/ride.controller");
+const {
+  createRide,
+  acceptRide,
+  completeRide,
+} = require("../controllers/ride.controller");
 
-// Ruta para que el cliente solicite un viaje
+// 🧍 Cliente solicita un viaje
 router.post("/rides", createRide);
+
+// 🚙 Conductor acepta el viaje
+router.put("/rides/accept", acceptRide); // ✅ Nueva ruta
+
+// ✅ Conductor completa el viaje
+router.put("/rides/complete", completeRide);
 
 module.exports = router;

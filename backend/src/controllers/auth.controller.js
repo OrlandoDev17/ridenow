@@ -15,6 +15,9 @@ const JWT_SECRET = process.env.JWT_SECRET;
 exports.registerUser = async (req, res) => {
   const { cedula, name, phone, password, role } = req.body;
 
+  const allowedRoles = ["CLIENT", "DRIVER", "ADMIN"];
+  const userRole = allowedRoles.includes(role) ? role : "CLIENT"; // por defecto CLIENT
+
   const existing = await prisma.user.findUnique({ where: { cedula } });
   if (existing) {
     return res
@@ -31,7 +34,7 @@ exports.registerUser = async (req, res) => {
       name,
       phone,
       password: hashedPassword,
-      role,
+      role: userRole,
     },
   });
 
