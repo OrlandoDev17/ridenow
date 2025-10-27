@@ -6,6 +6,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { usePathname } from "next/navigation";
 import { MessageProvider } from "@/context/MessageContext";
+import { MobileNav } from "@/components/ui/MobileNav";
 
 const poppinsFont = Poppins({
   variable: "--font-poppins",
@@ -39,7 +40,10 @@ export default function RootLayout({
         <AuthProvider>
           <MessageProvider>
             {showHeader && <Header />}
-            <div>{children}</div>
+            <div>
+              {children}
+              <MobileNav />
+            </div>
           </MessageProvider>
         </AuthProvider>
       </body>

@@ -7,10 +7,11 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "biome check",
-    "format": "biome format --write",
-    "static": "next build && next export"
+    "format": "biome format --write"
   },
   "dependencies": {
+    "@capacitor/android": "^7.4.4",
+    "@capacitor/core": "^7.4.4",
     "@types/leaflet": "^1.9.20",
     "axios": "^1.12.2",
     "leaflet": "^1.9.4",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
+    "@capacitor/cli": "^7.4.4",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

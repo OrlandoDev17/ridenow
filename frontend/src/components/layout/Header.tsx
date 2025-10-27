@@ -37,17 +37,13 @@ export function Header() {
     }
   }, [logoutSuccess]);
 
-  if (!isHydrated) {
-    return null;
-  }
-
   const userFirstLetter = user?.name.split(" ")[0].charAt(0);
 
   return (
     <header className="w-full bg-primary border-b-1 border-gray-800 z-50">
-      <div className="flex items-center justify-between max-w-11/12 mx-auto w-full h-20">
+      <div className="flex items-center justify-between max-w-11/12 mx-auto w-full h-16 lg:h-20">
         <div>
-          <h2 className="text-4xl font-extrabold">
+          <h2 className="text-3xl lg:text-4xl font-extrabold">
             Ride<span className="text-blue-500">Now</span>
           </h2>
         </div>
@@ -64,11 +60,11 @@ export function Header() {
             </Link>
           ))}
         </nav>
-        <aside className="hidden lg:flex items-center gap-4">
-          {isAuthenticated && user ? (
+        <aside className="flex items-center gap-4">
+          {isAuthenticated && user && isHydrated ? (
             <>
               <button
-                className="flex items-center gap-2 cursor-pointer px-4 py-2 rounded-lg hover:bg-red-500 hover:text-white transition"
+                className="hidden lg:flex items-center gap-2 cursor-pointer px-4 py-2 rounded-lg hover:bg-red-500 hover:text-white transition"
                 onClick={logout}
               >
                 <LogOutIcon />
@@ -76,7 +72,7 @@ export function Header() {
               </button>
               <Link
                 href="/profile"
-                className="flex items-center justify-center text-2xl font-semibold text-blue-500 size-12 bg-blue-500/10 rounded-full"
+                className="flex items-center justify-center text-xl lg:text-2xl font-semibold text-blue-500 size-10 lg:size-12 bg-blue-500/10 rounded-full"
               >
                 {userFirstLetter}
               </Link>
@@ -90,9 +86,9 @@ export function Header() {
             </>
           )}
         </aside>
-        <div className="lg:hidden flex">
+        {/* <div className="lg:hidden flex">
           <Menu />
-        </div>
+        </div> */}
       </div>
     </header>
   );

@@ -27,10 +27,6 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 ); // Permite peticiones desde otros dominios (útil para frontend)
-app.use((req, res, next) => {
-  console.log("🔍 Origin recibido:", req.headers.origin);
-  next();
-});
 
 app.use(express.json()); // Permite recibir datos en formato JSON
 

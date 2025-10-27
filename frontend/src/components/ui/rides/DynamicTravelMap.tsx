@@ -10,7 +10,7 @@ const TravelMap = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="w-full h-full flex items-center justify-center bg-slate-100 rounded-2xl">
+      <div className="w-full h-[500px] lg:h-full flex items-center justify-center bg-slate-100 rounded-2xl">
         <div className="text-slate-600">Cargando mapa...</div>
       </div>
     ),
@@ -26,7 +26,7 @@ export function DynamicTravelMap(props: MapProps) {
 
   if (!isClient) {
     return (
-      <div className="w-full h-full flex items-center justify-center bg-slate-100 rounded-2xl">
+      <div className="w-full h-[500px] lg:h-full flex items-center justify-center bg-slate-100 rounded-2xl">
         <div className="text-slate-600">Cargando mapa...</div>
       </div>
     );

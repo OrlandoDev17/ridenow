@@ -1,6 +1,8 @@
 // Tipos
 import {
   ArrowRightIcon,
+  CalendarIcon,
+  CarIcon,
   CashIcon,
   CircleIcon,
   CreditCardIcon,
@@ -16,10 +18,9 @@ import {
 } from "@/components/ui/Icons";
 import {
   AuthFormProps,
-  NavbarItem,
+  NavItem,
   PaymentMethod,
   ProfileFormProps,
-  SidebarItem,
   TravelFormItem,
   TravelOptions,
 } from "./types";
@@ -73,21 +74,24 @@ export const REGISTER_FORM: AuthFormProps[] = [
   },
 ];
 
-export const NAVBAR_LINKS: NavbarItem[] = [
+export const NAVBAR_LINKS: NavItem[] = [
   {
     id: "viajes",
     label: "Viajes",
-    href: "/",
+    href: "/home",
+    icon: CarIcon,
   },
   {
     id: "historial",
     label: "Historial",
     href: "/history",
+    icon: CalendarIcon,
   },
   {
     id: "cuenta",
     label: "Cuenta",
     href: "/account",
+    icon: UserIcon,
   },
 ];
 
@@ -144,7 +148,7 @@ export const PAYMENT_METHODS: PaymentMethod[] = [
   },
 ];
 
-export const SIDEBAR_LINKS: SidebarItem[] = [
+export const SIDEBAR_LINKS: NavItem[] = [
   {
     id: "home",
     label: "Inicio",
@@ -203,5 +207,32 @@ export const PROFILE_FORM: ProfileFormProps[] = [
     name: "email",
     placeholder: "email@example.com",
     icon: MailIcon,
+  },
+];
+
+export const MOBILE_NAV: NavItem[] = [
+  {
+    id: "home",
+    label: "Inicio",
+    href: "/home",
+    icon: HomeIcon,
+  },
+  {
+    id: "travels",
+    label: "Viajes",
+    href: "/",
+    icon: CarIcon,
+  },
+  {
+    id: "history",
+    label: "Historial",
+    href: "/history",
+    icon: CalendarIcon,
+  },
+  {
+    id: "profile",
+    label: "Perfil",
+    href: "/profile",
+    icon: UserIcon,
   },
 ];

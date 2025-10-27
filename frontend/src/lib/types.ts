@@ -24,10 +24,11 @@ export interface ButtonProps {
 // ==============================================
 
 /** Elemento de navegación para la barra de navegación */
-export interface NavbarItem {
+export interface NavItem {
   id: string;
   label: string;
   href: string;
+  icon: ComponentType<IconProps>;
 }
 
 // ==============================================
@@ -182,11 +183,6 @@ export interface AuthContextType {
 export interface TravelProps {
   origin: MapLocation | null;
   destination: MapLocation | null;
-}
-
-/** Propiedades para el nav de la barra lateral */
-export interface SidebarItem extends NavbarItem {
-  icon: ComponentType<IconProps>;
 }
 
 /** Propiedades de el formulario del perfil */
