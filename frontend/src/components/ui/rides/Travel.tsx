@@ -82,19 +82,36 @@ export function Travel({ origin, destination }: TravelProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!origin || !destination || !userCedula) {
+
+    if (!formValues.origin || !formValues.destination || !userCedula) {
       console.warn("⚠️ Faltan datos para solicitar el viaje");
       return;
     }
 
-    await solicitarViaje({
-      origin,
-      destination,
-      userCedula,
-      scheduled: isScheduled,
-      paymentMethod: selectedPaymentMethod,
-      travelOption: selectedTravelOption,
-    });
+    const originData = {
+      name: formValues.origin,
+      latlng: origin?.latlng,
+    };
+
+    const destinationData = {
+      name: formValues.destination,
+      latlng: destination?.latlng,
+    };
+
+    try {
+      await solicitarViaje({
+        origin: originData,
+        destination: destinationData,
+        userCedula,
+        scheduled: isScheduled,
+        paymentMethod: selectedPaymentMethod,
+        travelOption: selectedTravelOption,
+      });
+    } catch (error) {
+      console.error("Error al solicitar el viaje:", error);
+      // Handle error (e.g., show error message to user)
+      return;
+    }
 
     setShowMessage(true);
     setRequestRide(true);

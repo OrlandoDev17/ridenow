@@ -1,27 +1,30 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { LOGIN_FORM } from "@/lib/constants";
-import { EyeIcon, EyeOffIcon } from "@/ui/Icons";
 import { LoginProps } from "@/lib/types";
 
 export default function LoginPage() {
-  const [isVisible, setIsVisible] = useState(false);
-
-  const { login, loading, error, success, isAuthenticated } = useAuth();
+  const { login, loading, error, success, isAuthenticated, role } = useAuth();
 
   const router = useRouter();
 
-  const handleTogglePassword = () => {
-    setIsVisible(!isVisible);
-  };
-
   useEffect(() => {
     if (success && isAuthenticated) {
-      router.push("/");
+      if (role === "CLIENT") {
+        router.push("/clientRides");
+      }
+
+      if (role === "DRIVER") {
+        router.push("/driverRides");
+      }
+
+      if (role === "ADMIN") {
+        router.push("/admin");
+      }
     }
   }, [success, isAuthenticated]);
 

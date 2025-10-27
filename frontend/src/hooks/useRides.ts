@@ -26,18 +26,24 @@ export function useRides() {
     setError(null);
 
     try {
-      const res = await axios.post(`${API_URL}/api/rides`, {
+      const body: any = {
         origin: origin.name,
-        originLat: origin.latlng.lat,
-        originLng: origin.latlng.lng,
         destination: destination.name,
-        destinationLat: destination.latlng.lat,
-        destinationLng: destination.latlng.lng,
         clientCedula: userCedula,
         paymentMethod,
         travelOption,
         scheduled,
-      });
+      };
+
+      // Agregar coordenadas solo si están disponibles
+      if (origin.latlng?.lat !== undefined) body.originLat = origin.latlng.lat;
+      if (origin.latlng?.lng !== undefined) body.originLng = origin.latlng.lng;
+      if (destination.latlng?.lat !== undefined)
+        body.destinationLat = destination.latlng.lat;
+      if (destination.latlng?.lng !== undefined)
+        body.destinationLng = destination.latlng.lng;
+
+      const res = await axios.post(`${API_URL}/api/rides`, body);
 
       setRideData(res.data);
       console.log("🚗 Viaje creado:", res.data);

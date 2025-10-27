@@ -71,7 +71,7 @@ export function Message({ name, action = "login" }: MessageProps) {
             <h2 className="text-base lg:text-xl font-semibold">
               {messages[action].title}
             </h2>
-            <p className="text-xs text-gray-400 max-w-xs">
+            <p className="text-xs lg:text-base text-gray-400 max-w-xs">
               {messages[action].message}
             </p>
           </div>

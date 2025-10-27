@@ -78,7 +78,7 @@ export const NAVBAR_LINKS: NavItem[] = [
   {
     id: "viajes",
     label: "Viajes",
-    href: "/home",
+    href: "/clientRides",
     icon: CarIcon,
   },
   {
@@ -214,13 +214,13 @@ export const MOBILE_NAV: NavItem[] = [
   {
     id: "home",
     label: "Inicio",
-    href: "/home",
+    href: "/",
     icon: HomeIcon,
   },
   {
     id: "travels",
     label: "Viajes",
-    href: "/",
+    href: "/clientRides",
     icon: CarIcon,
   },
   {

@@ -1,4 +1,3 @@
-// socket.js
 const { Server } = require("socket.io");
 
 let io;
@@ -12,21 +11,29 @@ function initSocket(server) {
   });
 
   io.on("connection", (socket) => {
-    console.log("🟢 Nuevo socket conectado:", socket.id);
+    console.log("🟢 Usuario conectado:", socket.id);
 
-    // Ejemplo: unir a grupo de conductores
+    // El conductor se une a la sala "conductores"
     socket.on("joinConductores", () => {
       socket.join("conductores");
-      console.log(`Socket ${socket.id} unido al grupo conductores`);
+      console.log("🚗 Conductor unido a sala conductores:", socket.id);
     });
 
-    // Puedes agregar más listeners aquí
+    // El cliente se une a su sala personal (por cedula)
+    socket.on("join", (cedula) => {
+      socket.join(cedula);
+      console.log("🧍 Cliente unido a sala:", cedula);
+    });
+
+    socket.on("disconnect", () => {
+      console.log("🔴 Usuario desconectado:", socket.id);
+    });
   });
 }
 
 function getIO() {
   if (!io) {
-    throw new Error("Socket.IO no ha sido inicializado");
+    throw new Error("Socket.io no ha sido inicializado");
   }
   return io;
 }

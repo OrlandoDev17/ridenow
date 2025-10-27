@@ -13,7 +13,6 @@ export function RegisterForm() {
     formValues,
     setFormValues,
     role,
-    setRole,
     register,
     loading,
     error,
@@ -35,13 +34,19 @@ export function RegisterForm() {
     }));
   };
 
-  const handleRoleChange = (role: string) => {
-    setRole(role);
-  };
-
   useEffect(() => {
     if (success && isAuthenticated) {
-      router.push("/");
+      if (role === "CLIENT") {
+        router.push("/clientRides");
+      }
+
+      if (role === "DRIVER") {
+        router.push("/driverRides");
+      }
+
+      if (role === "ADMIN") {
+        router.push("/admin");
+      }
     }
   }, [success, isAuthenticated]);
 

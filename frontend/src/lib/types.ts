@@ -89,7 +89,7 @@ export interface AuthFormProps {
 
 /** Ubicación en el mapa */
 export interface MapLocation {
-  latlng: L.LatLng;
+  latlng?: L.LatLng;
   name: string;
 }
 

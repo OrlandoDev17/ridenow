@@ -45,10 +45,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     if (storedUser && storedUser !== "undefined") {
+      const parsedUser = JSON.parse(storedUser);
       setAuth((prev) => ({
         ...prev,
-        user: JSON.parse(storedUser),
+        user: parsedUser,
       }));
+      setRole(parsedUser.role || "CLIENT"); // ✅ sincroniza rol
     }
 
     setStatus((prev) => ({ ...prev, isHydrated: true }));
@@ -69,14 +71,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         password,
       });
 
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+      const { token, user } = res.data;
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
 
       setAuth({
-        token: res.data.token,
-        user: res.data.user,
+        token,
+        user,
         isAuthenticated: true,
       });
+
+      setRole(user.role || "CLIENT");
 
       setStatus((prev) => ({ ...prev, success: true }));
     } catch (err: any) {
@@ -107,24 +113,22 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         role,
       };
 
-      const response = await axios.post(
-        `${API_URL}/api/auth/register`,
-        payload
-      );
+      const res = await axios.post(`${API_URL}/api/auth/register`, payload);
 
-      const token = response.data.token;
-      if (token) {
-        localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify(response.data.user));
+      const { token, user } = res.data;
 
-        setAuth({
-          token,
-          user: response.data.user,
-          isAuthenticated: true,
-        });
-      }
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
 
-      console.log("✅ Registro exitoso:", response.data.user);
+      setAuth({
+        token,
+        user,
+        isAuthenticated: true,
+      });
+
+      setRole(user.role || "CLIENT");
+
+      console.log("✅ Registro exitoso:", user);
       setStatus((prev) => ({ ...prev, success: true }));
     } catch (err: any) {
       console.error("❌ Error:", err);
@@ -149,6 +153,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       user: null,
       isAuthenticated: false,
     });
+
+    setRole("CLIENT");
 
     setStatus((prev) => ({
       ...prev,
