@@ -17,7 +17,6 @@ export function Message({ name, action = "login" }: MessageProps) {
     const timer = setTimeout(() => {
       setShowMessage(false);
     }, 3000);
-
     return () => clearTimeout(timer);
   }, [showMessage]);
 
@@ -61,15 +60,18 @@ export function Message({ name, action = "login" }: MessageProps) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.3 }}
-          className="flex items-center justify-center gap-4 fixed top-10 left-1/2 -translate-x-1/2 max-w-lg z-[500] bg-gray-900 dark:bg-gray-800 border border-gray-700 rounded-lg 
-    p-6 shadow-xl"
+          className="flex items-center justify-center gap-8 fixed top-10 left-1/2 -translate-x-1/2 w-fit lg:max-w-lg z-[1500] 
+          bg-gray-900 dark:bg-gray-800 border border-gray-700 rounded-lg 
+          p-6 shadow-xl"
         >
-          <span className="size-12 flex items-center justify-center text-xl font-semibold bg-blue-500/10 border border-blue-500 rounded-full">
+          <span className="p-3 flex items-center justify-center text-xl font-semibold bg-blue-500/10 border border-blue-500 rounded-full">
             {firstLetterNameAndLastName(name)}
           </span>
           <div>
-            <h2 className="text-xl font-semibold">{messages[action].title}</h2>
-            <p className="text-sm text-gray-400 max-w-xs">
+            <h2 className="text-base lg:text-xl font-semibold">
+              {messages[action].title}
+            </h2>
+            <p className="text-xs text-gray-400 max-w-xs">
               {messages[action].message}
             </p>
           </div>

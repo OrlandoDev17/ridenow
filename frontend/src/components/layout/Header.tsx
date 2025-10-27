@@ -64,7 +64,7 @@ export function Header() {
           {isAuthenticated && user && isHydrated ? (
             <>
               <button
-                className="hidden lg:flex items-center gap-2 cursor-pointer px-4 py-2 rounded-lg hover:bg-red-500 hover:text-white transition"
+                className="flex items-center gap-2 cursor-pointer px-4 py-2 rounded-lg bg-red-500 lg:bg-transparent lg:hover:bg-red-500 lg:hover:text-white transition"
                 onClick={logout}
               >
                 <LogOutIcon />
@@ -72,7 +72,7 @@ export function Header() {
               </button>
               <Link
                 href="/profile"
-                className="flex items-center justify-center text-xl lg:text-2xl font-semibold text-blue-500 size-10 lg:size-12 bg-blue-500/10 rounded-full"
+                className="hidden lg:flex items-center justify-center text-xl lg:text-2xl font-semibold text-blue-500 size-10 lg:size-12 bg-blue-500/10 rounded-full"
               >
                 {userFirstLetter}
               </Link>

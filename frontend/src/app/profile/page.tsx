@@ -34,7 +34,7 @@ export default function ProfilePage() {
   const remainingFields = PROFILE_FORM.slice(3);
 
   return (
-    <main className="flex w-full h-screen">
+    <main className="flex w-full min-h-screen">
       {profile ? (
         <Sidebar
           name={profile.name}
