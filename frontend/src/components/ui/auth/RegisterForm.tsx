@@ -13,6 +13,7 @@ export function RegisterForm() {
     formValues,
     setFormValues,
     role,
+    setRole,
     register,
     loading,
     error,
@@ -24,6 +25,11 @@ export function RegisterForm() {
 
   const handleTogglePassword = () => {
     setIsVisible(!isVisible);
+  };
+
+  const handleRole = (role: string) => {
+    setRole(role);
+    console.log(role);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,6 +85,26 @@ export function RegisterForm() {
           )}
         </label>
       ))}
+      <div className="grid grid-cols-2 gap-2">
+        <button
+          className={`px-4 py-3   rounded-lg transition ${
+            role === "CLIENT" ? "bg-blue-500" : "bg-secondary xs:bg-primary"
+          }`}
+          type="button"
+          onClick={() => handleRole("CLIENT")}
+        >
+          Eres cliente?
+        </button>
+        <button
+          className={`px-4 py-3 rounded-lg focus:outline-none transition ${
+            role === "DRIVER" ? "bg-blue-500" : "bg-secondary xs:bg-primary"
+          }`}
+          type="button"
+          onClick={() => handleRole("DRIVER")}
+        >
+          Eres conductor?
+        </button>
+      </div>
 
       {error && <p className="text-red-500 text-sm text-center">{error}</p>}
       {success && (
