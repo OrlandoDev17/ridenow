@@ -236,3 +236,14 @@ export const MOBILE_NAV: NavItem[] = [
     icon: UserIcon,
   },
 ];
+
+export const TRAVEL_TABS = [
+  {
+    id: "available",
+    label: "Viajes Disponibles",
+  },
+  {
+    id: "history",
+    label: "Historial de Viajes",
+  },
+];

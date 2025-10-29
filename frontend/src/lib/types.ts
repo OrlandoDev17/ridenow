@@ -194,3 +194,46 @@ export interface ProfileFormProps {
   value?: User;
   icon: ComponentType<IconProps>;
 }
+
+// Propiedades de la tarjeta de viaje
+export interface RideCliente {
+  cedula: string;
+  name: string;
+  phone: string;
+  address?: string;
+  photoUrl?: string;
+  rating?: number;
+  totalRides: number;
+}
+
+export interface PendingRide {
+  id: number;
+  origin: string;
+  destination: string;
+  originLat?: number;
+  originLng?: number;
+  destinationLat?: number;
+  destinationLng?: number;
+  travelOption: "Solo Ida" | "Ida y Vuelta";
+  paymentMethod: "Efectivo" | "Pago Móvil" | "Créditos";
+  scheduled: boolean;
+  scheduledAt?: string;
+  requestedAt: string;
+  note?: string;
+  fare?: number;
+  totalRides?: number;
+  cliente: RideCliente;
+}
+
+export interface AssignedRide {
+  id: number;
+  conductor: {
+    name: string;
+    phone: string;
+    vehicleBrand?: string;
+    vehicleModel?: string;
+    vehiclePhotoUrl?: string;
+  };
+  fare: number;
+  status: "ASSIGNED";
+}

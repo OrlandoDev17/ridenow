@@ -271,3 +271,57 @@ exports.completeRide = async (req, res) => {
     return res.status(500).json({ error: "Error interno al completar viaje" });
   }
 };
+
+exports.getPendingRides = async (req, res) => {
+  try {
+    const rides = await prisma.ride.findMany({
+      where: { status: "PENDING" },
+      orderBy: { requestedAt: "desc" },
+      include: {
+        client: {
+          select: {
+            cedula: true,
+            name: true,
+            phone: true,
+            address: true,
+            photoUrl: true,
+            rides: {
+              where: { status: "COMPLETED" },
+              select: { id: true },
+            },
+          },
+        },
+      },
+    });
+
+    const formatted = rides.map((ride) => ({
+      id: ride.id,
+      origin: ride.origin,
+      destination: ride.destination,
+      originLat: ride.originLat,
+      originLng: ride.originLng,
+      destinationLat: ride.destinationLat,
+      destinationLng: ride.destinationLng,
+      travelOption: ride.travelOption,
+      paymentMethod: ride.paymentMethod,
+      scheduled: ride.scheduled,
+      scheduledAt: ride.scheduledAt,
+      requestedAt: ride.requestedAt,
+      note: ride.note,
+      fare: ride.fare,
+      cliente: {
+        cedula: ride.client.cedula,
+        name: ride.client.name,
+        phone: ride.client.phone,
+        address: ride.client.address,
+        photoUrl: ride.client.photoUrl,
+        totalRides: ride.client.rides.length,
+      },
+    }));
+
+    return res.status(200).json({ rides: formatted });
+  } catch (error) {
+    console.error("❌ Error al obtener viajes pendientes:", error);
+    return res.status(500).json({ error: "Error interno al obtener viajes" });
+  }
+};

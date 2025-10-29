@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { PAYMENT_METHODS, TRAVEL_FORM, TRAVEL_OPTIONS } from "@/lib/constants";
-import { ArrowRightIcon, CalendarIcon } from "../Icons";
+import { ArrowRightIcon, CalendarIcon } from "../../Icons";
 import { useRides } from "@/hooks/useRides";
 import { useAuth } from "@/context/AuthContext";
 import { useMessage } from "@/context/MessageContext";
